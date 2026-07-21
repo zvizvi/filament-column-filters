@@ -5,9 +5,12 @@ parameters:
     level: 4
     paths:
         - src
-        - config
-        - database
     tmpDir: build/phpstan
-    checkOctaneCompatibility: true
-    checkModelProperties: true
-
+    ignoreErrors:
+        # Macro closures are rebound to the column instance at runtime.
+        -
+            identifier: variable.undefined
+            path: src/FilamentColumnTools.php
+        -
+            identifier: varTag.variableNotFound
+            path: src/FilamentColumnTools.php

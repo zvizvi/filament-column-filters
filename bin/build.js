@@ -46,7 +46,15 @@ const defaultOptions = {
 compile({
     ...defaultOptions,
     entryPoints: ['./resources/js/index.js'],
-    outfile: './resources/dist/skeleton.js',
+    outfile: './resources/dist/components/filament-column-tools.js',
 }).then(() => {
-    console.log(`Build completed for skeleton.js`)
+    console.log(`Build completed for filament-column-tools.js`)
+})
+
+compile({
+    ...defaultOptions,
+    entryPoints: ['./resources/css/index.css'],
+    outfile: './resources/dist/filament-column-tools.css',
+}).then(() => {
+    console.log(`Build completed for filament-column-tools.css`)
 })

@@ -1,94 +1,174 @@
-# :package_description
+# Filament Column Tools
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
+Excel-style column header filters for [Filament](https://filamentphp.com) tables.
 
-<!--delete-->
----
-This repo can be used to scaffold a Filament plugin. Follow these steps to get started:
+Adds a small filter icon to the header of any table column. Clicking it opens a popup toolbar — just like the column filters you know from Excel — with a filter type you choose per column:
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Make something great!
----
-<!--/delete-->
+- **Search** — a free-text search on the column.
+- **Date** — a date range with quick presets (today, yesterday, this week, last week, this month, last month, last 7 days, last 30 days, this year, last year) and a custom from/until range.
+- **Select** — a single or multi value picker.
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+The header filters are backed by *real* Filament table filters: every filter you pick from a column header is reflected in the regular table filters (indicators, the filters dropdown, resetting, etc.), and it can be **synced with an existing filter** you already have on the table — choosing a value in the header popup updates the regular filter, and vice versa.
+
+RTL is fully supported and Hebrew translations are included.
 
 ## Installation
 
-You can install the package via composer:
-
 ```bash
-composer require :vendor_slug/:package_slug
+composer require zvizvi/filament-column-tools
 ```
 
-> [!IMPORTANT]
-> If you have not set up a custom theme and are using Filament Panels follow the instructions in the [Filament Docs](https://filamentphp.com/docs/4.x/styling/overview#creating-a-custom-theme) first.
-
-After setting up a custom theme add the plugin's views to your theme css file or your app's css file if using the standalone packages.
-
-```css
-@source '../../../../vendor/:vendor_slug/:package_slug/resources/**/*.blade.php';
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
-
-This is the contents of the published config file:
+The package registers itself automatically. No panel configuration is required, but you may register the plugin on a panel if you prefer being explicit:
 
 ```php
-return [
-];
+use Zvizvi\FilamentColumnTools\FilamentColumnToolsPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel->plugin(FilamentColumnToolsPlugin::make());
+}
 ```
 
 ## Usage
 
+Attach a filter to any table column with the `columnFilter()` method:
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+use Filament\Tables\Columns\TextColumn;
+use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
+
+public function table(Table $table): Table
+{
+    return $table
+        ->columns([
+            TextColumn::make('donor_name')
+                ->label('שם התורם')
+                ->columnFilter(ColumnFilter::search()),
+
+            TextColumn::make('created_at')
+                ->label('תאריך')
+                ->date()
+                ->columnFilter(ColumnFilter::date()),
+
+            TextColumn::make('status')
+                ->columnFilter(
+                    ColumnFilter::select()
+                        ->options([
+                            'open' => 'פתוח',
+                            'closed' => 'סגור',
+                        ])
+                        ->multiple(),
+                ),
+        ]);
+}
 ```
 
-## Testing
+That's it. Each configured column gets a filter icon in its header, and a matching filter is automatically registered on the table (so it also appears in the standard filters dropdown, with indicators).
+
+### Filter types
+
+#### Search
+
+```php
+ColumnFilter::search()
+    ->placeholder('חפש שם התורם') // optional, defaults to "Search {label}"
+```
+
+Performs a `LIKE %value%` search on the column.
+
+#### Date
+
+```php
+ColumnFilter::date()
+    ->presets(['today', 'yesterday', 'this_week', 'last_7_days']) // optional, defaults to all presets
+    ->weekStartsOn(0) // 0 = Sunday (default), 1 = Monday
+```
+
+Filters records between the chosen `from` / `until` dates (each side optional). The quick-select presets fill the custom range for you.
+
+#### Select
+
+```php
+ColumnFilter::select()
+    ->options(['a' => 'Option A', 'b' => 'Option B']) // array or closure
+    ->multiple() // default: true; pass false for single select
+```
+
+### Syncing with an existing table filter
+
+If the table already has a regular Filament filter for the same value, tell the column filter to sync with it by name — the header popup will then read and write that filter's state instead of registering its own:
+
+```php
+use Filament\Tables\Filters\SelectFilter;
+
+$table
+    ->columns([
+        TextColumn::make('status')
+            ->columnFilter(ColumnFilter::select()->syncWith('status')),
+    ])
+    ->filters([
+        SelectFilter::make('status')
+            ->options([
+                'open' => 'פתוח',
+                'closed' => 'סגור',
+            ])
+            ->multiple(),
+    ]);
+```
+
+For a `select` sync, the options and single/multiple mode are read automatically from the existing `SelectFilter` (you can still override with `->options()`).
+
+For filters with custom form field names, map the popup's fields to your filter's state keys:
+
+```php
+TextColumn::make('created_at')
+    ->columnFilter(
+        ColumnFilter::date()->syncWith('created', [
+            'from' => 'created_from',
+            'until' => 'created_until',
+        ]),
+    ),
+
+// with a regular filter like:
+Filter::make('created')
+    ->schema([
+        DatePicker::make('created_from'),
+        DatePicker::make('created_until'),
+    ])
+    ->query(/* ... */),
+```
+
+The `search` filter maps its single field the same way: `->syncWith('name', ['value' => 'q'])`.
+
+### Common options
+
+All filter types support:
+
+```php
+ColumnFilter::search()
+    ->filterName('my_filter')        // name of the auto-registered filter (default: "cf_{column}")
+    ->attribute('some_column')       // database column / dotted relation path (default: the column name)
+    ->label('Custom label')          // label used for the filter + indicators
+    ->applyUsing(fn (Builder $query, array $data) => $query->where(/* ... */)), // custom query logic
+```
+
+Columns whose name contains a dot (e.g. `author.name`) are filtered through the relationship automatically using `whereHas()`.
+
+## Translations
+
+English and Hebrew translations are included. Publish them to customize:
 
 ```bash
-composer test
+php artisan vendor:publish --tag=filament-column-tools-translations
 ```
 
-## Changelog
+## Development
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](.github/SECURITY.md) on how to report security vulnerabilities.
-
-## Credits
-
-- [:author_name](https://github.com/:author_username)
-- [All Contributors](../../contributors)
+```bash
+npm install
+npm run build   # build resources/dist assets
+composer test   # run the test suite
+```
 
 ## License
 

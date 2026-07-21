@@ -1,1 +1,326 @@
-@import '../../vendor/filament/filament/resources/css/theme.css';
+.fct-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.fct {
+    display: inline-flex;
+    align-items: center;
+}
+
+.fct-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.375rem;
+    color: rgb(156 163 175);
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.fct-trigger:hover,
+.fct-trigger:focus-visible {
+    color: rgb(75 85 99);
+    background-color: rgb(0 0 0 / 0.05);
+    outline: none;
+}
+
+.dark .fct-trigger:hover,
+.dark .fct-trigger:focus-visible {
+    color: rgb(209 213 219);
+    background-color: rgb(255 255 255 / 0.1);
+}
+
+.fct-trigger--active {
+    color: rgb(59 130 246);
+}
+
+.fct-trigger--active:hover,
+.fct-trigger--active:focus-visible {
+    color: rgb(37 99 235);
+}
+
+.fct-active-dot {
+    display: none;
+    position: absolute;
+    top: 0.125rem;
+    inset-inline-end: 0.125rem;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background-color: rgb(59 130 246);
+}
+
+.fct-trigger--active .fct-active-dot {
+    display: block;
+}
+
+.fct-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.fct-panel {
+    display: none;
+    z-index: 60;
+    width: 20rem;
+    max-width: calc(100vw - 1rem);
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background-color: white;
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.15), 0 4px 10px -6px rgb(0 0 0 / 0.1);
+    border: 1px solid rgb(229 231 235);
+    font-size: 0.875rem;
+    color: rgb(55 65 81);
+    text-align: start;
+}
+
+.dark .fct-panel {
+    background-color: rgb(31 41 55);
+    border-color: rgb(255 255 255 / 0.1);
+    color: rgb(209 213 219);
+}
+
+.fct-panel--open {
+    display: block;
+}
+
+.fct-section + .fct-section {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgb(243 244 246);
+}
+
+.dark .fct-section + .fct-section {
+    border-top-color: rgb(255 255 255 / 0.08);
+}
+
+.fct-section-title {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgb(107 114 128);
+}
+
+.dark .fct-section-title {
+    color: rgb(156 163 175);
+}
+
+.fct-input {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.625rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(209 213 219);
+    background-color: white;
+    color: inherit;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fct-input:focus {
+    border-color: rgb(59 130 246);
+    box-shadow: 0 0 0 1px rgb(59 130 246);
+}
+
+.dark .fct-input {
+    background-color: rgb(17 24 39);
+    border-color: rgb(255 255 255 / 0.15);
+}
+
+.fct-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.fct-chip {
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(209 213 219);
+    background-color: white;
+    color: rgb(55 65 81);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.fct-chip:hover {
+    background-color: rgb(243 244 246);
+}
+
+.fct-chip--active {
+    border-color: rgb(59 130 246);
+    background-color: rgb(239 246 255);
+    color: rgb(29 78 216);
+}
+
+.dark .fct-chip {
+    background-color: rgb(17 24 39);
+    border-color: rgb(255 255 255 / 0.15);
+    color: rgb(209 213 219);
+}
+
+.dark .fct-chip:hover {
+    background-color: rgb(255 255 255 / 0.08);
+}
+
+.dark .fct-chip--active {
+    border-color: rgb(59 130 246);
+    background-color: rgb(30 58 138 / 0.4);
+    color: rgb(147 197 253);
+}
+
+.fct-date-range {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.fct-field {
+    flex: 1;
+    display: block;
+}
+
+.fct-field-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    color: rgb(107 114 128);
+}
+
+.dark .fct-field-label {
+    color: rgb(156 163 175);
+}
+
+.fct-options {
+    max-height: 14rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.fct-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.fct-option:hover {
+    background-color: rgb(243 244 246);
+}
+
+.dark .fct-option:hover {
+    background-color: rgb(255 255 255 / 0.08);
+}
+
+.fct-checkbox,
+.fct-radio {
+    width: 1rem;
+    height: 1rem;
+    accent-color: rgb(59 130 246);
+    cursor: pointer;
+}
+
+.fct-empty {
+    margin: 0;
+    padding: 0.5rem;
+    color: rgb(156 163 175);
+    font-size: 0.8125rem;
+}
+
+.fct-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgb(243 244 246);
+}
+
+.dark .fct-footer {
+    border-top-color: rgb(255 255 255 / 0.08);
+}
+
+.fct-footer-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fct-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(209 213 219);
+    background-color: white;
+    color: rgb(55 65 81);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.fct-btn:hover {
+    background-color: rgb(243 244 246);
+}
+
+.dark .fct-btn {
+    background-color: rgb(17 24 39);
+    border-color: rgb(255 255 255 / 0.15);
+    color: rgb(209 213 219);
+}
+
+.dark .fct-btn:hover {
+    background-color: rgb(255 255 255 / 0.08);
+}
+
+.fct-btn--primary {
+    border-color: rgb(59 130 246);
+    background-color: rgb(59 130 246);
+    color: white;
+}
+
+.fct-btn--primary:hover {
+    background-color: rgb(37 99 235);
+}
+
+.dark .fct-btn--primary {
+    background-color: rgb(59 130 246);
+    border-color: rgb(59 130 246);
+    color: white;
+}
+
+.dark .fct-btn--primary:hover {
+    background-color: rgb(37 99 235);
+}
+
+.fct-btn-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.fct-link {
+    padding: 0.25rem;
+    border: none;
+    background: none;
+    color: rgb(59 130 246);
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.fct-link:hover {
+    text-decoration: underline;
+}

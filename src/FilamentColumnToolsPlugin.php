@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Zvizvi\FilamentColumnTools;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class FilamentColumnToolsPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'filament-column-tools';
     }
 
     public function register(Panel $panel): void

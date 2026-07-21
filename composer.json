@@ -1,24 +1,26 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "zvizvi/filament-column-tools",
+    "description": "Excel-style column header filters for Filament tables, with search, date range and multi-select filter types that sync with regular table filters.",
     "keywords": [
-        ":vendor_name",
+        "zvizvi",
         "laravel",
         "filamentphp",
         "filament",
         "filament-plugin",
-        ":package_slug"
+        "filament-column-tools",
+        "table",
+        "filters"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/zvizvi/filament-column-tools",
     "support": {
-        "issues": "https://github.com/:vendor_slug/:package_slug/issues",
-        "source": "https://github.com/:vendor_slug/:package_slug"
+        "issues": "https://github.com/zvizvi/filament-column-tools/issues",
+        "source": "https://github.com/zvizvi/filament-column-tools"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "zvizvi",
+            "email": "yaakov@workflow.co.il",
             "role": "Developer"
         }
     ],
@@ -43,13 +45,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Zvizvi\\FilamentColumnTools\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Zvizvi\\FilamentColumnTools\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -64,11 +65,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
-            ],
-            "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
-            }
+                "Zvizvi\\FilamentColumnTools\\FilamentColumnToolsServiceProvider"
+            ]
         }
     },
     "config": {

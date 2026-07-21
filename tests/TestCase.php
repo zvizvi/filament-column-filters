@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Zvizvi\FilamentColumnTools\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
@@ -13,28 +13,13 @@ use Filament\Schemas\SchemasServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\LivewireServiceProvider;
-use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use VendorName\Skeleton\SkeletonServiceProvider;
+use Zvizvi\FilamentColumnTools\FilamentColumnToolsServiceProvider;
 
 class TestCase extends Orchestra
 {
-    use LazilyRefreshDatabase;
-    use WithWorkbench;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
-        );
-    }
-
     protected function getPackageProviders($app)
     {
         $providers = [
@@ -51,7 +36,7 @@ class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
-            SkeletonServiceProvider::class,
+            FilamentColumnToolsServiceProvider::class,
         ];
 
         sort($providers);
@@ -61,11 +46,23 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app): void
     {
+        $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
         $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+        ]);
+
+        $app['view']->addNamespace('filament-column-tools-tests', __DIR__ . '/Fixtures/views');
     }
 
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->app['db']->connection()->getSchemaBuilder()->create('donors', function ($table) {
+            $table->id();
+            $table->string('name');
+            $table->string('status')->default('open');
+            $table->timestamps();
+        });
     }
 }

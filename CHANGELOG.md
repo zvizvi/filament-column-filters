@@ -1,7 +1,7 @@
 # Changelog
 
-All notable changes to `:package_name` will be documented in this file.
+All notable changes to `filament-column-tools` will be documented in this file.
 
-## 1.0.0 - 202X-XX-XX
+## Unreleased
 
-- initial release
+- Initial release: Excel-style column header filters (search, date range with quick presets, single/multi select) with syncing to regular Filament table filters. English + Hebrew translations, RTL support.
