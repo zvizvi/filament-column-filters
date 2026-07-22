@@ -80,8 +80,15 @@ th.fct-th .fct {
     height: 0.875rem;
 }
 
+/*
+ * The panel is teleported to the end of <body> and positioned by JS one tick
+ * after it becomes visible. It must be fixed-position from the start — if it
+ * ever participates in document flow it stretches the page and makes the main
+ * scrollbar jump.
+ */
 .fct-panel {
     display: none;
+    position: fixed;
     z-index: 60;
     width: 20rem;
     max-width: calc(100vw - 1rem);

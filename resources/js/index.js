@@ -151,7 +151,10 @@ export default function filamentColumnTools(config) {
                 this.position()
 
                 if (config.type === 'search' && this.$refs.searchInput) {
-                    this.$refs.searchInput.focus()
+                    // The positioning style lands asynchronously, so prevent
+                    // the focus from scrolling the page toward the panel's
+                    // pre-positioned location.
+                    this.$refs.searchInput.focus({ preventScroll: true })
                 }
             })
         },
