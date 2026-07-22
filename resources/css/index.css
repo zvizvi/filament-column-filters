@@ -52,12 +52,12 @@ th.fct-th .fct {
 }
 
 .fct-trigger--active {
-    color: rgb(59 130 246);
+    color: var(--primary-600, rgb(59 130 246));
 }
 
 .fct-trigger--active:hover,
 .fct-trigger--active:focus-visible {
-    color: rgb(37 99 235);
+    color: var(--primary-500, rgb(37 99 235));
 }
 
 .fct-active-dot {
@@ -68,7 +68,7 @@ th.fct-th .fct {
     width: 0.375rem;
     height: 0.375rem;
     border-radius: 9999px;
-    background-color: rgb(59 130 246);
+    background-color: var(--primary-500, rgb(59 130 246));
 }
 
 .fct-trigger--active .fct-active-dot {
@@ -147,8 +147,8 @@ th.fct-th .fct {
 }
 
 .fct-input:focus {
-    border-color: rgb(59 130 246);
-    box-shadow: 0 0 0 1px rgb(59 130 246);
+    border-color: var(--primary-500, rgb(59 130 246));
+    box-shadow: 0 0 0 1px var(--primary-500, rgb(59 130 246));
 }
 
 .dark .fct-input {
@@ -178,9 +178,10 @@ th.fct-th .fct {
 }
 
 .fct-chip--active {
-    border-color: rgb(59 130 246);
+    border-color: var(--primary-500, rgb(59 130 246));
     background-color: rgb(239 246 255);
-    color: rgb(29 78 216);
+    background-color: color-mix(in srgb, var(--primary-500, rgb(59 130 246)) 10%, transparent);
+    color: var(--primary-600, rgb(29 78 216));
 }
 
 .dark .fct-chip {
@@ -194,9 +195,10 @@ th.fct-th .fct {
 }
 
 .dark .fct-chip--active {
-    border-color: rgb(59 130 246);
+    border-color: var(--primary-500, rgb(59 130 246));
     background-color: rgb(30 58 138 / 0.4);
-    color: rgb(147 197 253);
+    background-color: color-mix(in srgb, var(--primary-500, rgb(59 130 246)) 25%, transparent);
+    color: var(--primary-300, rgb(147 197 253));
 }
 
 .fct-date-range {
@@ -266,7 +268,7 @@ th.fct-th .fct {
 .fct-radio {
     width: 1rem;
     height: 1rem;
-    accent-color: rgb(59 130 246);
+    accent-color: var(--primary-500, rgb(59 130 246));
     cursor: pointer;
 }
 
@@ -327,23 +329,23 @@ th.fct-th .fct {
 }
 
 .fct-btn--primary {
-    border-color: rgb(59 130 246);
-    background-color: rgb(59 130 246);
+    border-color: var(--primary-600, rgb(59 130 246));
+    background-color: var(--primary-600, rgb(59 130 246));
     color: white;
 }
 
 .fct-btn--primary:hover {
-    background-color: rgb(37 99 235);
+    background-color: var(--primary-500, rgb(37 99 235));
 }
 
 .dark .fct-btn--primary {
-    background-color: rgb(59 130 246);
-    border-color: rgb(59 130 246);
+    background-color: var(--primary-600, rgb(59 130 246));
+    border-color: var(--primary-600, rgb(59 130 246));
     color: white;
 }
 
 .dark .fct-btn--primary:hover {
-    background-color: rgb(37 99 235);
+    background-color: var(--primary-500, rgb(37 99 235));
 }
 
 .fct-btn-icon {
@@ -355,7 +357,7 @@ th.fct-th .fct {
     padding: 0.25rem;
     border: none;
     background: none;
-    color: rgb(59 130 246);
+    color: var(--primary-600, rgb(59 130 246));
     font-size: 0.875rem;
     cursor: pointer;
 }
