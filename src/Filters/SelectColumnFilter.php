@@ -78,7 +78,7 @@ class SelectColumnFilter extends ColumnFilter
         $matchesMode = fn (SelectFilter $filter): bool => $this->isMultiple === null
             || $filter->isMultiple() === $this->isMultiple;
 
-        $named = parent::findExistingFilter($table, $column);
+        $named = $table->getFilter($column->getName());
 
         if ($named instanceof SelectFilter && $matchesMode($named)) {
             return $named;

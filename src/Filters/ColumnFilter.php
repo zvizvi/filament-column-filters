@@ -3,6 +3,7 @@
 namespace Zvizvi\FilamentColumnTools\Filters;
 
 use Closure;
+use Filament\Forms\Components\Field;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Table;
@@ -89,13 +90,46 @@ abstract class ColumnFilter
 
     /**
      * Auto-detect a regular table filter this column filter should sync with
-     * when syncWith() was not used. By default a filter named exactly like
-     * the column matches; its state keys are assumed to match this filter's
-     * field keys (use syncWith() with a field map otherwise).
+     * when syncWith() was not used. A filter named exactly like the column
+     * matches, but only when its form fields cover the state keys this
+     * filter's popup writes — otherwise the popup's values would go nowhere,
+     * so a separate filter is generated instead (or use syncWith() with a
+     * field map to connect them).
      */
     public function findExistingFilter(Table $table, Column $column): ?BaseFilter
     {
-        return $table->getFilter($column->getName());
+        $filter = $table->getFilter($column->getName());
+
+        if ($filter !== null && $this->canSyncWithFilter($filter)) {
+            return $filter;
+        }
+
+        return null;
+    }
+
+    protected function canSyncWithFilter(BaseFilter $filter): bool
+    {
+        try {
+            $components = $filter->getSchemaComponents();
+        } catch (\Throwable) {
+            return false;
+        }
+
+        $fieldNames = [];
+
+        foreach ($components as $component) {
+            if ($component instanceof Field) {
+                $fieldNames[] = $component->getName();
+            }
+        }
+
+        foreach (array_keys($this->getDefaultState()) as $field) {
+            if (! in_array($this->getStateKey($field), $fieldNames, true)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

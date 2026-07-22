@@ -1,9 +1,12 @@
 <?php
 
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\Donor;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTable;
+use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTableWithCustomDateFilter;
 
 use function Pest\Livewire\livewire;
 
@@ -168,4 +171,48 @@ it('auto-syncs an explicitly multiple column filter with a multiple select filte
 
     expect($match)->toBeInstanceOf(SelectFilter::class)
         ->and($match->getName())->toBe('status');
+});
+
+it('generates a separate filter when a same-named regular filter has different state keys', function () {
+    $component = livewire(DonorsTableWithCustomDateFilter::class);
+    $table = $component->instance()->getTable();
+
+    // The regular "created_at" filter uses created_from / created_until, so
+    // the column filter cannot sync with it and works independently.
+    expect($table->getFilter('cf_created_at'))->not->toBeNull();
+
+    $old = Donor::create(['name' => 'Old', 'created_at' => '2020-01-15 10:00:00']);
+    $recent = Donor::create(['name' => 'Recent', 'created_at' => '2026-06-15 10:00:00']);
+
+    livewire(DonorsTableWithCustomDateFilter::class)
+        ->set('tableFilters.cf_created_at', ['from' => '2026-01-01', 'until' => '2026-12-31'])
+        ->assertCanSeeTableRecords([$recent])
+        ->assertCanNotSeeTableRecords([$old]);
+
+    $indicators = livewire(DonorsTableWithCustomDateFilter::class)
+        ->set('tableFilters.cf_created_at', ['from' => '2026-01-01', 'until' => null])
+        ->instance()
+        ->getTable()
+        ->getFilter('cf_created_at')
+        ->getIndicators();
+
+    expect($indicators)->toHaveCount(1);
+});
+
+it('auto-syncs with a same-named regular filter whose state keys match', function () {
+    $table = livewire(DonorsTable::class)->instance()->getTable();
+
+    $table->pushFilters([
+        Filter::make('created_at')
+            ->schema([
+                DatePicker::make('from'),
+                DatePicker::make('until'),
+            ]),
+    ]);
+
+    $column = $table->getColumn('created_at');
+    $match = ColumnFilter::date()->findExistingFilter($table, $column);
+
+    expect($match)->not->toBeNull()
+        ->and($match->getName())->toBe('created_at');
 });
