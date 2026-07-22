@@ -5,6 +5,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Zvizvi\FilamentColumnTools\FilamentColumnTools;
 use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
 use Zvizvi\FilamentColumnTools\Filters\DateColumnFilter;
+use Zvizvi\FilamentColumnTools\Filters\RangeColumnFilter;
 use Zvizvi\FilamentColumnTools\Filters\SearchColumnFilter;
 use Zvizvi\FilamentColumnTools\Filters\SelectColumnFilter;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTable;
@@ -128,4 +129,19 @@ it('shows the option search field automatically above the threshold', function (
         ->and($forced['searchable'])->toBeTrue()
         ->and($disabled['searchable'])->toBeFalse()
         ->and($lowThreshold['searchable'])->toBeTrue();
+});
+
+it('creates a range filter from the factory with a step in its popup config', function () {
+    $column = TextColumn::make('amount');
+    $table = livewire(DonorsTable::class)->instance()->getTable();
+
+    $filter = ColumnFilter::range()->step(0.01);
+
+    expect($filter)->toBeInstanceOf(RangeColumnFilter::class);
+
+    $config = $filter->getPopupConfig($column, $table, null);
+
+    expect($config['type'])->toBe('range')
+        ->and($config['fields'])->toBe(['from' => 'from', 'until' => 'until'])
+        ->and($config['step'])->toBe(0.01);
 });

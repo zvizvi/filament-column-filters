@@ -46,6 +46,11 @@ abstract class ColumnFilter
         return new SelectColumnFilter;
     }
 
+    public static function range(): RangeColumnFilter
+    {
+        return new RangeColumnFilter;
+    }
+
     abstract public function getType(): string;
 
     /**

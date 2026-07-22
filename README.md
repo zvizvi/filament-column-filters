@@ -7,6 +7,7 @@ Adds a small filter icon to the header of any table column. Clicking it opens a 
 - **Search** — a free-text search on the column.
 - **Date** — a date range with quick presets (today, yesterday, this week, last week, this month, last month, last 7 days, last 30 days, this year, last year) and a custom from/until range.
 - **Select** — a single or multi value picker.
+- **Range** — a numeric from/until range with two number inputs side by side.
 
 The header filters are backed by *real* Filament table filters, so they apply to the table query like any other filter and show the standard filter indicators (with working remove buttons) — but they do not clutter the standard filters dropdown. When you **sync with an existing filter** you already have on the table (via `syncWith()`), the popup reads and writes that filter's state, so choosing a value in the header popup updates the regular filter — dropdown included — and vice versa.
 
@@ -97,6 +98,18 @@ ColumnFilter::select()
 ```
 
 When there are many options, a search field appears at the top of the popup to filter the option list (client-side).
+
+#### Range
+
+```php
+TextColumn::make('amount')
+    ->columnFilter(
+        ColumnFilter::range()
+            ->step(0.01), // optional step for the number inputs
+    ),
+```
+
+Filters records between the entered minimum / maximum values (each side optional).
 
 ### Syncing with an existing table filter
 

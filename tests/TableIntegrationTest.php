@@ -235,3 +235,30 @@ it('searches through nested relationship search columns', function () {
         ->assertCanSeeTableRecords([$alphaDonor])
         ->assertCanNotSeeTableRecords([$betaDonor]);
 });
+
+it('filters records through the generated range filter', function () {
+    $small = Donor::create(['name' => 'Small', 'amount' => 100]);
+    $big = Donor::create(['name' => 'Big', 'amount' => 900]);
+
+    livewire(DonorsTable::class)
+        ->set('tableFilters.cf_amount', ['from' => 500, 'until' => 1000])
+        ->assertCanSeeTableRecords([$big])
+        ->assertCanNotSeeTableRecords([$small]);
+
+    livewire(DonorsTable::class)
+        ->set('tableFilters.cf_amount', ['from' => null, 'until' => 200])
+        ->assertCanSeeTableRecords([$small])
+        ->assertCanNotSeeTableRecords([$big]);
+});
+
+it('produces separate min and max indicators for the range filter', function () {
+    $component = livewire(DonorsTable::class)
+        ->set('tableFilters.cf_amount', ['from' => 50, 'until' => 300])
+        ->instance();
+
+    $indicators = $component->getTable()->getFilter('cf_amount')->getIndicators();
+
+    expect($indicators)->toHaveCount(2)
+        ->and($indicators[0]->getRemoveField())->toBe('from')
+        ->and($indicators[1]->getRemoveField())->toBe('until');
+});

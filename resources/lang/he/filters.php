@@ -5,6 +5,7 @@ return [
         'search' => 'חיפוש בעמודה',
         'date' => 'סינון לפי טווח תאריכים',
         'select' => 'סינון לפי ערכים',
+        'range' => 'סינון לפי טווח מספרי',
     ],
 
     'search_placeholder' => 'חפש :label',
@@ -38,6 +39,13 @@ return [
 
     'indicator_from' => ':label: מתאריך :date',
     'indicator_until' => ':label: עד תאריך :date',
+
+    'range_from' => 'מ־',
+    'range_until' => 'עד',
+    'min_placeholder' => 'מינימום',
+    'max_placeholder' => 'מקסימום',
+    'indicator_min' => ':label: מ־:value',
+    'indicator_max' => ':label: עד :value',
 
     'no_options' => 'אין אפשרויות זמינות',
 

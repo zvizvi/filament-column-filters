@@ -78,6 +78,7 @@ class TestCase extends Orchestra
             $table->foreignId('category_id')->nullable();
             $table->string('name');
             $table->string('status')->default('open');
+            $table->integer('amount')->default(0);
             $table->timestamps();
         });
     }

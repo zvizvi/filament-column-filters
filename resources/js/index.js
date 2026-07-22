@@ -113,7 +113,7 @@ export default function filamentColumnTools(config) {
                 this.state = {
                     value: current[config.fields.value] ?? '',
                 }
-            } else if (config.type === 'date') {
+            } else if (config.type === 'date' || config.type === 'range') {
                 this.state = {
                     from: current[config.fields.from] ?? null,
                     until: current[config.fields.until] ?? null,
@@ -162,6 +162,8 @@ export default function filamentColumnTools(config) {
                     this.$refs.optionSearchInput.focus({ preventScroll: true })
                 } else if (config.type === 'date' && this.$refs.fromDateInput) {
                     this.$refs.fromDateInput.focus({ preventScroll: true })
+                } else if (config.type === 'range' && this.$refs.fromRangeInput) {
+                    this.$refs.fromRangeInput.focus({ preventScroll: true })
                 }
             })
         },
@@ -237,9 +239,11 @@ export default function filamentColumnTools(config) {
 
             if (config.type === 'search') {
                 next[config.fields.value] = this.state.value?.trim?.() ? this.state.value.trim() : null
-            } else if (config.type === 'date') {
-                next[config.fields.from] = this.state.from || null
-                next[config.fields.until] = this.state.until || null
+            } else if (config.type === 'date' || config.type === 'range') {
+                // The inputs hold strings, so '0' stays a valid value and only
+                // empty input becomes null.
+                next[config.fields.from] = this.state.from === null || this.state.from === undefined || this.state.from === '' ? null : this.state.from
+                next[config.fields.until] = this.state.until === null || this.state.until === undefined || this.state.until === '' ? null : this.state.until
             } else if (config.type === 'select') {
                 next[config.fields.value] = config.multiple
                     ? [...(this.state.values ?? [])]
@@ -260,7 +264,7 @@ export default function filamentColumnTools(config) {
         clear() {
             if (config.type === 'search') {
                 this.state = { value: '' }
-            } else if (config.type === 'date') {
+            } else if (config.type === 'date' || config.type === 'range') {
                 this.state = { from: null, until: null }
             } else if (config.type === 'select') {
                 this.state = config.multiple ? { values: [] } : { value: null }

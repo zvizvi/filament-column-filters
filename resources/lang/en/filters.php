@@ -5,6 +5,7 @@ return [
         'search' => 'Search in column',
         'date' => 'Filter by date range',
         'select' => 'Filter by values',
+        'range' => 'Filter by number range',
     ],
 
     'search_placeholder' => 'Search :label',
@@ -38,6 +39,13 @@ return [
 
     'indicator_from' => ':label: from :date',
     'indicator_until' => ':label: until :date',
+
+    'range_from' => 'From',
+    'range_until' => 'To',
+    'min_placeholder' => 'Minimum',
+    'max_placeholder' => 'Maximum',
+    'indicator_min' => ':label: from :value',
+    'indicator_max' => ':label: up to :value',
 
     'no_options' => 'No options available',
 
