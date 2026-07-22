@@ -37,6 +37,9 @@ class DonorsTable extends Component implements HasActions, HasSchemas, HasTable
                 TextColumn::make('display_name')
                     ->searchable(['name'])
                     ->columnFilter(ColumnFilter::search()),
+                TextColumn::make('category.name')
+                    ->searchable(['category.team.title'])
+                    ->columnFilter(ColumnFilter::search()),
             ])
             ->filters([
                 SelectFilter::make('status')

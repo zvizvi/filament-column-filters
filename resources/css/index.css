@@ -220,6 +220,10 @@ th.fct-th .fct {
     color: rgb(156 163 175);
 }
 
+.fct-panel [x-cloak] {
+    display: none !important;
+}
+
 .fct-options {
     max-height: 14rem;
     overflow-y: auto;

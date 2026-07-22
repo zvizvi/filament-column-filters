@@ -82,6 +82,8 @@ export default function filamentColumnTools(config) {
 
         state: {},
 
+        optionSearch: '',
+
         panelStyle: {},
 
         init() {
@@ -145,16 +147,19 @@ export default function filamentColumnTools(config) {
             openInstance = this
 
             this.resetLocalState()
+            this.optionSearch = ''
             this.open = true
 
             this.$nextTick(() => {
                 this.position()
 
+                // The positioning style lands asynchronously, so prevent the
+                // focus from scrolling the page toward the panel's
+                // pre-positioned location.
                 if (config.type === 'search' && this.$refs.searchInput) {
-                    // The positioning style lands asynchronously, so prevent
-                    // the focus from scrolling the page toward the panel's
-                    // pre-positioned location.
                     this.$refs.searchInput.focus({ preventScroll: true })
+                } else if (config.type === 'select' && this.$refs.optionSearchInput) {
+                    this.$refs.optionSearchInput.focus({ preventScroll: true })
                 }
             })
         },
@@ -165,6 +170,16 @@ export default function filamentColumnTools(config) {
             }
 
             this.open = false
+        },
+
+        optionMatches(label) {
+            const search = this.optionSearch.trim().toLowerCase()
+
+            return search === '' || String(label).toLowerCase().includes(search)
+        },
+
+        get hasVisibleOptions() {
+            return (config.options ?? []).some((option) => this.optionMatches(option.label))
         },
 
         position() {

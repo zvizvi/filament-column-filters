@@ -4,9 +4,11 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
+use Zvizvi\FilamentColumnTools\Tests\Fixtures\Category;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\Donor;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTable;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTableWithCustomDateFilter;
+use Zvizvi\FilamentColumnTools\Tests\Fixtures\Team;
 
 use function Pest\Livewire\livewire;
 
@@ -215,4 +217,21 @@ it('auto-syncs with a same-named regular filter whose state keys match', functio
 
     expect($match)->not->toBeNull()
         ->and($match->getName())->toBe('created_at');
+});
+
+it('searches through nested relationship search columns', function () {
+    $alphaTeam = Team::create(['title' => 'Alpha']);
+    $betaTeam = Team::create(['title' => 'Beta']);
+    $alphaCategory = Category::create(['name' => 'General', 'team_id' => $alphaTeam->id]);
+    $betaCategory = Category::create(['name' => 'General', 'team_id' => $betaTeam->id]);
+
+    $alphaDonor = Donor::create(['name' => 'Alice', 'category_id' => $alphaCategory->id]);
+    $betaDonor = Donor::create(['name' => 'Bob', 'category_id' => $betaCategory->id]);
+
+    // The category.name column searches through searchable(['category.team.title']),
+    // which spans two relationship levels from the base model.
+    livewire(DonorsTable::class)
+        ->set('tableFilters.cf_category_name.value', 'Alph')
+        ->assertCanSeeTableRecords([$alphaDonor])
+        ->assertCanNotSeeTableRecords([$betaDonor]);
 });

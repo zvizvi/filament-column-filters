@@ -8,6 +8,7 @@ return [
     ],
 
     'search_placeholder' => 'Search :label',
+    'search_options' => 'Search...',
 
     'apply' => 'Apply',
     'search' => 'Search',

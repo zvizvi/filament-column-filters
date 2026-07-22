@@ -8,6 +8,7 @@ return [
     ],
 
     'search_placeholder' => 'חפש :label',
+    'search_options' => 'חפש...',
 
     'apply' => 'אישור',
     'search' => 'חפש',
