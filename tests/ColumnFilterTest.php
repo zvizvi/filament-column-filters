@@ -102,3 +102,10 @@ it('limits date presets to known ones', function () {
 
     expect($config['presets'])->toBe(['today', 'last_week']);
 });
+
+it('sanitizes dots in a custom filter name', function () {
+    $column = TextColumn::make('group.name');
+
+    expect(ColumnFilter::search()->filterName('group.name')->getTargetFilterName($column))
+        ->toBe('group_name');
+});

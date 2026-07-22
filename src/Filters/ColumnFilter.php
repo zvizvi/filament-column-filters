@@ -128,9 +128,14 @@ abstract class ColumnFilter
 
     public function getTargetFilterName(Column $column): string
     {
-        return $this->syncWithFilter
-            ?? $this->filterName
-            ?? 'cf_' . str_replace('.', '_', $column->getName());
+        if ($this->syncWithFilter !== null) {
+            return $this->syncWithFilter;
+        }
+
+        // Dots are not allowed in generated filter names: the name becomes a
+        // Livewire state path segment, where a dot would nest the state
+        // incorrectly.
+        return str_replace('.', '_', $this->filterName ?? 'cf_' . $column->getName());
     }
 
     public function getAttribute(Column $column): string
