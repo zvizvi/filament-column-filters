@@ -1,12 +1,28 @@
 .fct-header {
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
+}
+
+/*
+ * The trigger is rendered inside the column label, but it is displayed at the
+ * far (inline-end) edge of the header cell — after the sort icon — flush left
+ * in RTL and flush right in LTR.
+ */
+th.fct-th {
+    position: relative;
+    padding-inline-end: 2.25rem;
 }
 
 .fct {
     display: inline-flex;
     align-items: center;
+}
+
+th.fct-th .fct {
+    position: absolute;
+    inset-inline-end: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .fct-trigger {

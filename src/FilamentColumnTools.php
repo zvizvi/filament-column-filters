@@ -197,7 +197,8 @@ class FilamentColumnTools
 
         $column
             ->label(new HtmlString($html))
-            ->translateLabel(false);
+            ->translateLabel(false)
+            ->extraHeaderAttributes(['class' => 'fct-th'], merge: true);
     }
 
     /**
