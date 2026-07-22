@@ -97,25 +97,7 @@ class DateColumnFilter extends ColumnFilter
                     },
                 );
             })
-            ->indicateUsing(function (array $data) use ($label): array {
-                $indicators = [];
-
-                if (filled($data['from'] ?? null)) {
-                    $indicators[] = __('filament-column-tools::filters.indicator_from', [
-                        'label' => $label,
-                        'date' => $data['from'],
-                    ]);
-                }
-
-                if (filled($data['until'] ?? null)) {
-                    $indicators[] = __('filament-column-tools::filters.indicator_until', [
-                        'label' => $label,
-                        'date' => $data['until'],
-                    ]);
-                }
-
-                return $indicators;
-            });
+            ->indicateUsing(fn (): array => []);
     }
 
     public function getDefaultState(): array

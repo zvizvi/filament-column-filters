@@ -8,7 +8,7 @@ Adds a small filter icon to the header of any table column. Clicking it opens a 
 - **Date** — a date range with quick presets (today, yesterday, this week, last week, this month, last month, last 7 days, last 30 days, this year, last year) and a custom from/until range.
 - **Select** — a single or multi value picker.
 
-The header filters are backed by *real* Filament table filters: every filter you pick from a column header is reflected in the regular table filters (indicators, the filters dropdown, resetting, etc.), and it can be **synced with an existing filter** you already have on the table — choosing a value in the header popup updates the regular filter, and vice versa.
+The header filters are backed by *real* Filament table filters, so they apply to the table query like any other filter — but they live only in the column header popup and do not clutter the standard filters dropdown or indicators. When you **sync with an existing filter** you already have on the table (via `syncWith()`), the popup reads and writes that filter's state, so choosing a value in the header popup updates the regular filter — indicators included — and vice versa.
 
 RTL is fully supported and Hebrew translations are included.
 
@@ -63,7 +63,7 @@ public function table(Table $table): Table
 }
 ```
 
-That's it. Each configured column gets a filter icon in its header, and a matching filter is automatically registered on the table (so it also appears in the standard filters dropdown, with indicators).
+That's it. Each configured column gets a filter icon in its header, and a matching filter is automatically registered on the table behind the scenes. The auto-registered filter exists only in the header popup — it does not show up in the standard filters dropdown or as an indicator. If you want the standard filter UI too, define a regular filter yourself and connect the two with `syncWith()`.
 
 ### Filter types
 

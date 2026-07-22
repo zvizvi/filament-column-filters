@@ -2,7 +2,6 @@
 
 namespace Zvizvi\FilamentColumnTools;
 
-use Closure;
 use Error;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Contracts\HasTable;
@@ -99,8 +98,6 @@ class FilamentColumnTools
             return;
         }
 
-        $injectedFilters = false;
-
         foreach ($table->getColumns() as $column) {
             $config = static::getColumnFilter($column);
 
@@ -112,35 +109,21 @@ class FilamentColumnTools
             $targetFilter = $table->getFilter($filterName);
 
             if ($targetFilter === null && ! $config->isSyncingWithExisting()) {
+                // Generated filters exist only in the header popup: they are
+                // registered after the filters form schema was built and
+                // cached, so they never render in the standard filters
+                // dropdown, and their indicators are disabled. Filters synced
+                // with syncWith() keep their full regular-filter UI.
                 $targetFilter = $config->makeTableFilter($column);
                 $table->pushFilters([$targetFilter]);
 
                 static::seedFilterState($component, $filterName, $config->getDefaultState());
-
-                $injectedFilters = true;
             }
 
             if ($decorate) {
                 static::decorateColumnHeader($component, $table, $column, $config, $filterName, $targetFilter);
             }
         }
-
-        if ($injectedFilters) {
-            static::rebuildFiltersForm($component);
-        }
-    }
-
-    /**
-     * The filters form schema is cached (and filled) when the component
-     * boots, before the generated filters are registered, so it has to be
-     * rebuilt for them to show up in the standard filters dropdown.
-     */
-    protected static function rebuildFiltersForm(Component $component): void
-    {
-        Closure::bind(function (): void {
-            /** @phpstan-ignore method.notFound, method.notFound */
-            $this->cacheSchema('tableFiltersForm', $this->getTableFiltersForm(...));
-        }, $component, $component::class)();
     }
 
     /**

@@ -35,8 +35,5 @@ return [
         'last_year' => 'שנה שעברה',
     ],
 
-    'indicator_from' => ':label: מתאריך :date',
-    'indicator_until' => ':label: עד תאריך :date',
-
     'no_options' => 'אין אפשרויות זמינות',
 ];

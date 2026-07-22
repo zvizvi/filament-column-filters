@@ -55,13 +55,21 @@ it('filters records through the synced regular select filter', function () {
         ->assertCanNotSeeTableRecords([$closed]);
 });
 
-it('shows the generated filters in the standard filters form', function () {
+it('keeps generated filters out of the standard filters form', function () {
     $component = livewire(DonorsTable::class)->instance();
 
     $schema = $component->getTableFiltersForm();
 
     expect($schema->getComponent(fn ($schemaComponent): bool => $schemaComponent->getKey() === 'cf_name' || str_contains((string) ($schemaComponent->getStatePath(false) ?? ''), 'cf_name'), withHidden: true))
-        ->not->toBeNull();
+        ->toBeNull();
+});
+
+it('does not produce indicators for generated filters', function () {
+    $component = livewire(DonorsTable::class)
+        ->set('tableFilters.cf_name.value', 'abc')
+        ->instance();
+
+    expect($component->getTable()->getFilter('cf_name')->getIndicators())->toBe([]);
 });
 
 it('searches through the column search columns when the column name is an accessor', function () {
