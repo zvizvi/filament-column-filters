@@ -131,9 +131,21 @@
                         </button>
                     </div>
                 @else
+                    @if ($config['searchable'] ?? false)
+                        <div class="fct-section">
+                            <input
+                                type="text"
+                                class="fct-input"
+                                x-ref="optionSearchInput"
+                                x-model="optionSearch"
+                                placeholder="{{ __('filament-column-tools::filters.search_options') }}"
+                            />
+                        </div>
+                    @endif
+
                     <div class="fct-section fct-options" x-ref="optionsList">
                         @forelse ($config['options'] ?? [] as $option)
-                            <label class="fct-option">
+                            <label class="fct-option" x-show="optionMatches(@js($option['label']))">
                                 @if ($config['multiple'] ?? true)
                                     <input
                                         type="checkbox"
@@ -155,6 +167,12 @@
                         @empty
                             <p class="fct-empty">{{ __('filament-column-tools::filters.no_options') }}</p>
                         @endforelse
+
+                        @if (($config['searchable'] ?? false) && ($config['options'] ?? []) !== [])
+                            <p class="fct-empty" x-cloak x-show="! hasVisibleOptions">
+                                {{ __('filament-column-tools::filters.no_options') }}
+                            </p>
+                        @endif
                     </div>
 
                     <div class="fct-footer">

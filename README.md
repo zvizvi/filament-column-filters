@@ -92,7 +92,11 @@ Filters records between the chosen `from` / `until` dates (each side optional). 
 ColumnFilter::select()
     ->options(['a' => 'Option A', 'b' => 'Option B']) // array or closure
     ->multiple() // default: true; pass false for single select
+    ->searchable() // force the option search field on (or off with false)
+    ->searchThreshold(8) // options count above which the search field shows automatically (default: 8)
 ```
+
+When there are many options, a search field appears at the top of the popup to filter the option list (client-side).
 
 ### Syncing with an existing table filter
 

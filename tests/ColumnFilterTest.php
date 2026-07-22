@@ -109,3 +109,23 @@ it('sanitizes dots in a custom filter name', function () {
     expect(ColumnFilter::search()->filterName('group.name')->getTargetFilterName($column))
         ->toBe('group_name');
 });
+
+it('shows the option search field automatically above the threshold', function () {
+    $column = TextColumn::make('status');
+    $table = livewire(DonorsTable::class)->instance()->getTable();
+
+    $fewOptions = array_combine(range('a', 'e'), range('a', 'e'));
+    $manyOptions = array_combine(range('a', 'z'), range('a', 'z'));
+
+    $few = ColumnFilter::select()->options($fewOptions)->getPopupConfig($column, $table, null);
+    $many = ColumnFilter::select()->options($manyOptions)->getPopupConfig($column, $table, null);
+    $forced = ColumnFilter::select()->options($fewOptions)->searchable()->getPopupConfig($column, $table, null);
+    $disabled = ColumnFilter::select()->options($manyOptions)->searchable(false)->getPopupConfig($column, $table, null);
+    $lowThreshold = ColumnFilter::select()->options($fewOptions)->searchThreshold(3)->getPopupConfig($column, $table, null);
+
+    expect($few['searchable'])->toBeFalse()
+        ->and($many['searchable'])->toBeTrue()
+        ->and($forced['searchable'])->toBeTrue()
+        ->and($disabled['searchable'])->toBeFalse()
+        ->and($lowThreshold['searchable'])->toBeTrue();
+});

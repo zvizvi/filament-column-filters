@@ -21,6 +21,14 @@ class SelectColumnFilter extends ColumnFilter
      */
     protected ?bool $isMultiple = null;
 
+    /**
+     * Null = automatic: the popup shows a search field when the number of
+     * options exceeds the threshold.
+     */
+    protected ?bool $isSearchable = null;
+
+    protected int $searchThreshold = 8;
+
     public function getType(): string
     {
         return 'select';
@@ -46,6 +54,28 @@ class SelectColumnFilter extends ColumnFilter
     public function isMultiple(): bool
     {
         return $this->isMultiple ?? true;
+    }
+
+    /**
+     * Force the option search field on or off. Without calling this, the
+     * field shows automatically when there are more options than the
+     * threshold.
+     */
+    public function searchable(bool $condition = true): static
+    {
+        $this->isSearchable = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Number of options above which the search field shows automatically.
+     */
+    public function searchThreshold(int $threshold): static
+    {
+        $this->searchThreshold = $threshold;
+
+        return $this;
     }
 
     /**
@@ -171,6 +201,7 @@ class SelectColumnFilter extends ColumnFilter
             ],
             'multiple' => $isMultiple,
             'options' => $options,
+            'searchable' => $this->isSearchable ?? (count($options) > $this->searchThreshold),
         ];
     }
 }
