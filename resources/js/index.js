@@ -72,6 +72,10 @@ export function presetRange(preset, weekStartsOn = 0) {
     }
 }
 
+// Only one popup may be open at a time, across all columns and tables on the
+// page — opening one closes the currently open one.
+let openInstance = null
+
 export default function filamentColumnTools(config) {
     return {
         open: false,
@@ -134,6 +138,12 @@ export default function filamentColumnTools(config) {
         },
 
         openPanel() {
+            if (openInstance && openInstance !== this) {
+                openInstance.close()
+            }
+
+            openInstance = this
+
             this.resetLocalState()
             this.open = true
 
@@ -147,6 +157,10 @@ export default function filamentColumnTools(config) {
         },
 
         close() {
+            if (openInstance === this) {
+                openInstance = null
+            }
+
             this.open = false
         },
 
