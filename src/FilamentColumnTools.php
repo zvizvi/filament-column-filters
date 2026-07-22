@@ -180,6 +180,9 @@ class FilamentColumnTools
 
         static::decoratedRegistry()->offsetSet($column, true);
 
+        // getLabel() already applies translateLabel() here, so the flag must
+        // be turned off afterwards — otherwise Filament would pass the
+        // HtmlString wrapper to the translator, which only accepts strings.
         $label = $column->getLabel();
         $labelHtml = $label instanceof Htmlable ? $label->toHtml() : e($label);
 
@@ -192,7 +195,9 @@ class FilamentColumnTools
             'isActive' => static::hasActiveState($state),
         ])->render();
 
-        $column->label(new HtmlString($html));
+        $column
+            ->label(new HtmlString($html))
+            ->translateLabel(false);
     }
 
     /**

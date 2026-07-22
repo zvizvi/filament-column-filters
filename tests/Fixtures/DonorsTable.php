@@ -27,6 +27,7 @@ class DonorsTable extends Component implements HasActions, HasSchemas, HasTable
             ->query(Donor::query())
             ->columns([
                 TextColumn::make('name')
+                    ->translateLabel()
                     ->columnFilter(ColumnFilter::search()),
                 TextColumn::make('status')
                     ->columnFilter(ColumnFilter::select()->syncWith('status')),
