@@ -96,7 +96,24 @@ ColumnFilter::select()
 
 ### Syncing with an existing table filter
 
-If the table already has a regular Filament filter for the same value, tell the column filter to sync with it by name — the header popup will then read and write that filter's state instead of registering its own:
+If the table already has a regular Filament filter for the same value, the column filter syncs with it instead of registering its own — the header popup reads and writes that filter's state, so both stay in sync and only one indicator shows.
+
+This happens **automatically** when a regular filter matches the column: a filter named exactly like the column, or — for `select` filters — any `SelectFilter` on the same attribute. In that case options and single/multiple mode are read from the existing filter too, and no configuration is needed:
+
+```php
+$table
+    ->columns([
+        TextColumn::make('status')
+            ->columnFilter(ColumnFilter::select()), // auto-syncs with the "status" filter below
+    ])
+    ->filters([
+        SelectFilter::make('status')
+            ->options([...])
+            ->multiple(),
+    ]);
+```
+
+When the names don't line up (or the filter's state keys differ), point the column filter at the right filter by name with `syncWith()`:
 
 ```php
 use Filament\Tables\Filters\SelectFilter;

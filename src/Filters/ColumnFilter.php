@@ -88,6 +88,17 @@ abstract class ColumnFilter
     }
 
     /**
+     * Auto-detect a regular table filter this column filter should sync with
+     * when syncWith() was not used. By default a filter named exactly like
+     * the column matches; its state keys are assumed to match this filter's
+     * field keys (use syncWith() with a field map otherwise).
+     */
+    public function findExistingFilter(Table $table, Column $column): ?BaseFilter
+    {
+        return $table->getFilter($column->getName());
+    }
+
+    /**
      * Override the name used for the auto-registered table filter.
      */
     public function filterName(string $name): static

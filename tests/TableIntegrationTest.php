@@ -19,6 +19,18 @@ it('injects generated filters into the table', function () {
         ->and($table->getFilter('cf_status'))->toBeNull();
 });
 
+it('auto-syncs with an existing filter on the same attribute without syncWith', function () {
+    $component = livewire(DonorsTable::class);
+    $table = $component->instance()->getTable();
+
+    // The status column has no syncWith(), yet no cf_status filter is
+    // generated because the regular "status" SelectFilter matches — and the
+    // header popup shows its options.
+    expect($table->getFilter('cf_status'))->toBeNull();
+
+    $component->assertSeeHtml('value="open"');
+});
+
 it('decorates configured column headers with the filter popup', function () {
     livewire(DonorsTable::class)
         ->assertSeeHtml('fct-trigger')

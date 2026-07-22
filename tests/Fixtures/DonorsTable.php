@@ -30,7 +30,7 @@ class DonorsTable extends Component implements HasActions, HasSchemas, HasTable
                     ->translateLabel()
                     ->columnFilter(ColumnFilter::search()),
                 TextColumn::make('status')
-                    ->columnFilter(ColumnFilter::select()->syncWith('status')),
+                    ->columnFilter(ColumnFilter::select()),
                 TextColumn::make('created_at')
                     ->date()
                     ->columnFilter(ColumnFilter::date()),

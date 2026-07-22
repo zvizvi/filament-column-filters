@@ -63,6 +63,30 @@ class SelectColumnFilter extends ColumnFilter
         return [];
     }
 
+    /**
+     * A select column filter can only sync automatically with a SelectFilter
+     * (its state shape is known): one named like the column, or any one
+     * filtering the same attribute.
+     */
+    public function findExistingFilter(Table $table, Column $column): ?BaseFilter
+    {
+        $named = parent::findExistingFilter($table, $column);
+
+        if ($named instanceof SelectFilter) {
+            return $named;
+        }
+
+        $attribute = $this->getAttribute($column);
+
+        foreach ($table->getFilters() as $filter) {
+            if ($filter instanceof SelectFilter && $filter->getAttribute() === $attribute) {
+                return $filter;
+            }
+        }
+
+        return null;
+    }
+
     public function makeTableFilter(Column $column): BaseFilter
     {
         $attribute = $this->getAttribute($column);

@@ -110,15 +110,24 @@ class FilamentColumnTools
             $targetFilter = $table->getFilter($filterName);
 
             if ($targetFilter === null && ! $config->isSyncingWithExisting()) {
-                // Generated filters exist only in the header popup: they are
-                // registered after the filters form schema was built and
-                // cached, so they never render in the standard filters
-                // dropdown, and their indicators are disabled. Filters synced
-                // with syncWith() keep their full regular-filter UI.
-                $targetFilter = $config->makeTableFilter($column);
-                $table->pushFilters([$targetFilter]);
+                // A matching regular filter (same name or, for selects, same
+                // attribute) is synced with automatically, so the popup and
+                // the regular filter share one state and one indicator.
+                $existingFilter = $config->findExistingFilter($table, $column);
 
-                static::seedFilterState($component, $filterName, $config->getDefaultState());
+                if ($existingFilter !== null) {
+                    $filterName = $existingFilter->getName();
+                    $targetFilter = $existingFilter;
+                } else {
+                    // Otherwise a filter is generated. It exists only in the
+                    // header popup and its indicators: it is registered after
+                    // the filters form schema was built and cached, so it
+                    // never renders in the standard filters dropdown.
+                    $targetFilter = $config->makeTableFilter($column);
+                    $table->pushFilters([$targetFilter]);
+
+                    static::seedFilterState($component, $filterName, $config->getDefaultState());
+                }
             }
 
             if ($decorate) {
@@ -159,6 +168,14 @@ class FilamentColumnTools
             }
 
             $filterName = $config->getTargetFilterName($column);
+
+            // Auto-synced filters (matched existing regular filters) reset
+            // through the filters form like any regular filter; only
+            // generated filters, which exist under the generated name, need
+            // manual resetting.
+            if ($table->getFilter($filterName) === null) {
+                continue;
+            }
 
             if ($method === 'removeTableFilter' && ($params[0] ?? null) !== $filterName) {
                 continue;
@@ -230,10 +247,15 @@ class FilamentColumnTools
 
         $state = $component->getTableFilterState($filterName);
 
+        // The popup must bind to the resolved filter name, which may be an
+        // auto-detected existing filter rather than the generated name.
+        $popupConfig = $config->getPopupConfig($column, $table, $targetFilter);
+        $popupConfig['filterName'] = $filterName;
+
         $html = view('filament-column-tools::column-filter-header', [
             'labelHtml' => $labelHtml,
             'type' => $config->getType(),
-            'config' => $config->getPopupConfig($column, $table, $targetFilter),
+            'config' => $popupConfig,
             'isActive' => static::hasActiveState($state),
         ])->render();
 
