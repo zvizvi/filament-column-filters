@@ -160,6 +160,8 @@ export default function filamentColumnTools(config) {
                     this.$refs.searchInput.focus({ preventScroll: true })
                 } else if (config.type === 'select' && this.$refs.optionSearchInput) {
                     this.$refs.optionSearchInput.focus({ preventScroll: true })
+                } else if (config.type === 'date' && this.$refs.fromDateInput) {
+                    this.$refs.fromDateInput.focus({ preventScroll: true })
                 }
             })
         },

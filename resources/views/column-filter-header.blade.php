@@ -101,6 +101,7 @@
                                 <input
                                     type="date"
                                     class="fct-input"
+                                    x-ref="fromDateInput"
                                     x-model="state.from"
                                     placeholder="{{ __('filament-column-tools::filters.start_date') }}"
                                 />
