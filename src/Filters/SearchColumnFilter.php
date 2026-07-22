@@ -38,7 +38,7 @@ class SearchColumnFilter extends ColumnFilter
                     ->label($label)
                     ->placeholder($this->getPlaceholder($column)),
             ])
-            ->query(function (Builder $query, array $data) use ($attribute, $applyUsing): Builder {
+            ->query(function (Builder $query, array $data) use ($column, $attribute, $applyUsing): Builder {
                 if ($applyUsing !== null) {
                     return $applyUsing($query, $data) ?? $query;
                 }
@@ -47,6 +47,20 @@ class SearchColumnFilter extends ColumnFilter
 
                 if ($value === '') {
                     return $query;
+                }
+
+                // When the column is searchable, reuse its own search
+                // behavior — including custom search columns like
+                // searchable(['first_name', 'last_name']) and searchable
+                // query closures — so the popup matches the column search
+                // exactly. The column name itself may be an accessor that
+                // does not exist in the database.
+                if ($this->attribute === null && $column->isSearchable()) {
+                    return $query->where(function (Builder $query) use ($column, $value): void {
+                        $isFirst = true;
+
+                        $column->applySearchConstraint($query, $value, $isFirst);
+                    });
                 }
 
                 return $this->applyToAttribute(

@@ -63,3 +63,15 @@ it('shows the generated filters in the standard filters form', function () {
     expect($schema->getComponent(fn ($schemaComponent): bool => $schemaComponent->getKey() === 'cf_name' || str_contains((string) ($schemaComponent->getStatePath(false) ?? ''), 'cf_name'), withHidden: true))
         ->not->toBeNull();
 });
+
+it('searches through the column search columns when the column name is an accessor', function () {
+    $alice = Donor::create(['name' => 'Alice']);
+    $bob = Donor::create(['name' => 'Bob']);
+
+    // display_name is a model accessor, not a database column; the filter
+    // must use the column's searchable(['name']) definition instead.
+    livewire(DonorsTable::class)
+        ->set('tableFilters.cf_display_name.value', 'Ali')
+        ->assertCanSeeTableRecords([$alice])
+        ->assertCanNotSeeTableRecords([$bob]);
+});
