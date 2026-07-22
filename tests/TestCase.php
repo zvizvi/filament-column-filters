@@ -58,8 +58,24 @@ class TestCase extends Orchestra
 
     protected function defineDatabaseMigrations(): void
     {
-        $this->app['db']->connection()->getSchemaBuilder()->create('donors', function ($table) {
+        $schema = $this->app['db']->connection()->getSchemaBuilder();
+
+        $schema->create('teams', function ($table) {
             $table->id();
+            $table->string('title');
+            $table->timestamps();
+        });
+
+        $schema->create('categories', function ($table) {
+            $table->id();
+            $table->foreignId('team_id')->nullable();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        $schema->create('donors', function ($table) {
+            $table->id();
+            $table->foreignId('category_id')->nullable();
             $table->string('name');
             $table->string('status')->default('open');
             $table->timestamps();
