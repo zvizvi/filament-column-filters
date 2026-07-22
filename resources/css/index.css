@@ -224,6 +224,18 @@ th.fct-th .fct {
     display: none !important;
 }
 
+.fct-bulk-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.fct-bulk-actions .fct-link {
+    padding: 0.125rem 0;
+    font-size: 0.8125rem;
+}
+
 .fct-options {
     max-height: 14rem;
     overflow-y: auto;

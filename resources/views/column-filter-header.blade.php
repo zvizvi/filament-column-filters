@@ -144,36 +144,49 @@
                         </div>
                     @endif
 
-                    <div class="fct-section fct-options" x-ref="optionsList">
-                        @forelse ($config['options'] ?? [] as $option)
-                            <label class="fct-option" x-show="optionMatches(@js($option['label']))">
-                                @if ($config['multiple'] ?? true)
-                                    <input
-                                        type="checkbox"
-                                        class="fct-checkbox"
-                                        value="{{ $option['value'] }}"
-                                        x-model="state.values"
-                                    />
-                                @else
-                                    <input
-                                        type="radio"
-                                        class="fct-radio"
-                                        name="fct-{{ $config['filterName'] }}"
-                                        value="{{ $option['value'] }}"
-                                        x-model="state.value"
-                                    />
-                                @endif
-                                <span>{{ $option['label'] }}</span>
-                            </label>
-                        @empty
-                            <p class="fct-empty">{{ __('filament-column-tools::filters.no_options') }}</p>
-                        @endforelse
-
-                        @if (($config['searchable'] ?? false) && ($config['options'] ?? []) !== [])
-                            <p class="fct-empty" x-cloak x-show="! hasVisibleOptions">
-                                {{ __('filament-column-tools::filters.no_options') }}
-                            </p>
+                    <div class="fct-section">
+                        @if (($config['multiple'] ?? true) && count($config['options'] ?? []) > 1)
+                            <div class="fct-bulk-actions">
+                                <button type="button" class="fct-link" x-on:click="selectAll">
+                                    {{ __('filament-column-tools::filters.select_all') }}
+                                </button>
+                                <button type="button" class="fct-link" x-on:click="deselectAll">
+                                    {{ __('filament-column-tools::filters.deselect_all') }}
+                                </button>
+                            </div>
                         @endif
+
+                        <div class="fct-options" x-ref="optionsList">
+                            @forelse ($config['options'] ?? [] as $option)
+                                <label class="fct-option" x-show="optionMatches(@js($option['label']))">
+                                    @if ($config['multiple'] ?? true)
+                                        <input
+                                            type="checkbox"
+                                            class="fct-checkbox"
+                                            value="{{ $option['value'] }}"
+                                            x-model="state.values"
+                                        />
+                                    @else
+                                        <input
+                                            type="radio"
+                                            class="fct-radio"
+                                            name="fct-{{ $config['filterName'] }}"
+                                            value="{{ $option['value'] }}"
+                                            x-model="state.value"
+                                        />
+                                    @endif
+                                    <span>{{ $option['label'] }}</span>
+                                </label>
+                            @empty
+                                <p class="fct-empty">{{ __('filament-column-tools::filters.no_options') }}</p>
+                            @endforelse
+
+                            @if (($config['searchable'] ?? false) && ($config['options'] ?? []) !== [])
+                                <p class="fct-empty" x-cloak x-show="! hasVisibleOptions">
+                                    {{ __('filament-column-tools::filters.no_options') }}
+                                </p>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="fct-footer">

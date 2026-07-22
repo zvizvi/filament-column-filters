@@ -40,4 +40,7 @@ return [
     'indicator_until' => ':label: until :date',
 
     'no_options' => 'No options available',
+
+    'select_all' => 'Select all',
+    'deselect_all' => 'Deselect all',
 ];

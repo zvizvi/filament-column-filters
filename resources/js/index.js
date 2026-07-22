@@ -184,6 +184,24 @@ export default function filamentColumnTools(config) {
             return (config.options ?? []).some((option) => this.optionMatches(option.label))
         },
 
+        visibleOptionValues() {
+            return (config.options ?? [])
+                .filter((option) => this.optionMatches(option.label))
+                .map((option) => String(option.value))
+        },
+
+        // Bulk selection applies to the options matching the current option
+        // search — which is all of them when the search is empty.
+        selectAll() {
+            this.state.values = [...new Set([...(this.state.values ?? []), ...this.visibleOptionValues()])]
+        },
+
+        deselectAll() {
+            const visible = new Set(this.visibleOptionValues())
+
+            this.state.values = (this.state.values ?? []).filter((value) => ! visible.has(value))
+        },
+
         position() {
             const trigger = this.$refs.trigger
 

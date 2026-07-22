@@ -40,4 +40,7 @@ return [
     'indicator_until' => ':label: עד תאריך :date',
 
     'no_options' => 'אין אפשרויות זמינות',
+
+    'select_all' => 'בחר הכל',
+    'deselect_all' => 'בטל בחירה של הכל',
 ];
