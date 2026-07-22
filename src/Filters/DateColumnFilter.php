@@ -6,6 +6,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -98,20 +99,22 @@ class DateColumnFilter extends ColumnFilter
                 );
             })
             ->indicateUsing(function (array $data) use ($label): array {
+                // Returned as a list of Indicator objects — string-keyed
+                // arrays collide across filters when Filament merges them.
                 $indicators = [];
 
                 if (filled($data['from'] ?? null)) {
-                    $indicators['from'] = __('filament-column-tools::filters.indicator_from', [
+                    $indicators[] = Indicator::make(__('filament-column-tools::filters.indicator_from', [
                         'label' => $label,
                         'date' => $data['from'],
-                    ]);
+                    ]))->removeField('from');
                 }
 
                 if (filled($data['until'] ?? null)) {
-                    $indicators['until'] = __('filament-column-tools::filters.indicator_until', [
+                    $indicators[] = Indicator::make(__('filament-column-tools::filters.indicator_until', [
                         'label' => $label,
                         'date' => $data['until'],
-                    ]);
+                    ]))->removeField('until');
                 }
 
                 return $indicators;

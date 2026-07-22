@@ -84,7 +84,25 @@ it('produces indicators for active generated filters', function () {
     $indicators = $component->getTable()->getFilter('cf_name')->getIndicators();
 
     expect($indicators)->toHaveCount(1)
-        ->and($indicators['value']->getLabel())->toContain('abc');
+        ->and($indicators[0]->getLabel())->toContain('abc')
+        ->and($indicators[0]->getRemoveField())->toBe('value');
+});
+
+it('shows a separate indicator for each active generated filter', function () {
+    $component = livewire(DonorsTable::class)
+        ->set('tableFilters.cf_name.value', 'abc')
+        ->set('tableFilters.cf_display_name.value', 'def')
+        ->set('tableFilters.cf_created_at', ['from' => '2026-01-01', 'until' => '2026-12-31'])
+        ->instance();
+
+    $labels = collect($component->getTable()->getFilterIndicators())
+        ->map(fn ($indicator): string => (string) $indicator->getLabel())
+        ->all();
+
+    expect(array_filter($labels, fn (string $label): bool => str_contains($label, 'abc')))->toHaveCount(1)
+        ->and(array_filter($labels, fn (string $label): bool => str_contains($label, 'def')))->toHaveCount(1)
+        ->and(array_filter($labels, fn (string $label): bool => str_contains($label, '2026-01-01')))->toHaveCount(1)
+        ->and(array_filter($labels, fn (string $label): bool => str_contains($label, '2026-12-31')))->toHaveCount(1);
 });
 
 it('clears a generated filter when its indicator is removed', function () {

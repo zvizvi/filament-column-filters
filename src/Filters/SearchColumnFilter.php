@@ -6,6 +6,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -76,7 +77,16 @@ class SearchColumnFilter extends ColumnFilter
             ->indicateUsing(function (array $data) use ($label): array {
                 $value = trim((string) ($data['value'] ?? ''));
 
-                return $value === '' ? [] : ['value' => "{$label}: {$value}"];
+                if ($value === '') {
+                    return [];
+                }
+
+                // Indicators must be returned as a list: string-keyed
+                // indicator arrays collide across filters when Filament
+                // merges them, leaving only the last filter's indicator.
+                return [
+                    Indicator::make("{$label}: {$value}")->removeField('value'),
+                ];
             });
     }
 
