@@ -35,5 +35,8 @@ return [
         'last_year' => 'Last year',
     ],
 
+    'indicator_from' => ':label: from :date',
+    'indicator_until' => ':label: until :date',
+
     'no_options' => 'No options available',
 ];

@@ -73,7 +73,11 @@ class SearchColumnFilter extends ColumnFilter
                     ),
                 );
             })
-            ->indicateUsing(fn (): array => []);
+            ->indicateUsing(function (array $data) use ($label): array {
+                $value = trim((string) ($data['value'] ?? ''));
+
+                return $value === '' ? [] : ['value' => "{$label}: {$value}"];
+            });
     }
 
     public function getDefaultState(): array

@@ -97,7 +97,25 @@ class DateColumnFilter extends ColumnFilter
                     },
                 );
             })
-            ->indicateUsing(fn (): array => []);
+            ->indicateUsing(function (array $data) use ($label): array {
+                $indicators = [];
+
+                if (filled($data['from'] ?? null)) {
+                    $indicators['from'] = __('filament-column-tools::filters.indicator_from', [
+                        'label' => $label,
+                        'date' => $data['from'],
+                    ]);
+                }
+
+                if (filled($data['until'] ?? null)) {
+                    $indicators['until'] = __('filament-column-tools::filters.indicator_until', [
+                        'label' => $label,
+                        'date' => $data['until'],
+                    ]);
+                }
+
+                return $indicators;
+            });
     }
 
     public function getDefaultState(): array

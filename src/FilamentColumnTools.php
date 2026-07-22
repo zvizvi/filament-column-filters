@@ -60,8 +60,9 @@ class FilamentColumnTools
             static::processComponent($component);
         });
 
-        on('call', function ($component) {
+        on('call', function ($component, $method = null, $params = null) {
             static::processComponent($component);
+            static::handleFilterRemovalCall($component, $method, is_array($params) ? $params : []);
         });
 
         on('render', function ($component) {
@@ -122,6 +123,64 @@ class FilamentColumnTools
 
             if ($decorate) {
                 static::decorateColumnHeader($component, $table, $column, $config, $filterName, $targetFilter);
+            }
+        }
+    }
+
+    /**
+     * Generated filters have no fields in the (cached) filters form, so
+     * Filament's own removeTableFilter() cannot reset their state — the
+     * indicator's remove button would silently do nothing. The state is
+     * reset here instead, before the Livewire call runs.
+     *
+     * @param  array<int, mixed>  $params
+     */
+    protected static function handleFilterRemovalCall(mixed $component, ?string $method, array $params): void
+    {
+        if (! in_array($method, ['removeTableFilter', 'removeTableFilters'], true)) {
+            return;
+        }
+
+        if (! $component instanceof Component || ! $component instanceof HasTable) {
+            return;
+        }
+
+        try {
+            $table = $component->getTable();
+        } catch (Error) {
+            return;
+        }
+
+        foreach ($table->getColumns() as $column) {
+            $config = static::getColumnFilter($column);
+
+            if ($config === null || $config->isSyncingWithExisting()) {
+                continue;
+            }
+
+            $filterName = $config->getTargetFilterName($column);
+
+            if ($method === 'removeTableFilter' && ($params[0] ?? null) !== $filterName) {
+                continue;
+            }
+
+            $defaultState = $config->getDefaultState();
+            $field = $method === 'removeTableFilter' ? ($params[1] ?? null) : null;
+
+            foreach (['tableFilters', 'tableDeferredFilters'] as $property) {
+                if (! property_exists($component, $property)) {
+                    continue;
+                }
+
+                $state = $component->{$property} ?? [];
+
+                if ($field !== null && array_key_exists($field, $defaultState)) {
+                    $state[$filterName][$field] = $defaultState[$field];
+                } else {
+                    $state[$filterName] = $defaultState;
+                }
+
+                $component->{$property} = $state;
             }
         }
     }

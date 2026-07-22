@@ -64,12 +64,38 @@ it('keeps generated filters out of the standard filters form', function () {
         ->toBeNull();
 });
 
-it('does not produce indicators for generated filters', function () {
+it('produces indicators for active generated filters', function () {
     $component = livewire(DonorsTable::class)
         ->set('tableFilters.cf_name.value', 'abc')
         ->instance();
 
-    expect($component->getTable()->getFilter('cf_name')->getIndicators())->toBe([]);
+    $indicators = $component->getTable()->getFilter('cf_name')->getIndicators();
+
+    expect($indicators)->toHaveCount(1)
+        ->and($indicators['value']->getLabel())->toContain('abc');
+});
+
+it('clears a generated filter when its indicator is removed', function () {
+    $alice = Donor::create(['name' => 'Alice']);
+    $bob = Donor::create(['name' => 'Bob']);
+
+    livewire(DonorsTable::class)
+        ->set('tableFilters.cf_name.value', 'Ali')
+        ->assertCanNotSeeTableRecords([$bob])
+        ->call('removeTableFilter', 'cf_name', 'value')
+        ->assertSet('tableFilters.cf_name.value', null)
+        ->assertCanSeeTableRecords([$alice, $bob]);
+});
+
+it('clears generated filters when all filters are removed', function () {
+    $alice = Donor::create(['name' => 'Alice']);
+    $bob = Donor::create(['name' => 'Bob']);
+
+    livewire(DonorsTable::class)
+        ->set('tableFilters.cf_name.value', 'Ali')
+        ->call('removeTableFilters')
+        ->assertSet('tableFilters.cf_name.value', null)
+        ->assertCanSeeTableRecords([$alice, $bob]);
 });
 
 it('searches through the column search columns when the column name is an accessor', function () {

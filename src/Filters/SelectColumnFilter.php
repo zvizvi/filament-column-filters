@@ -70,8 +70,7 @@ class SelectColumnFilter extends ColumnFilter
         $filter = SelectFilter::make($this->getTargetFilterName($column))
             ->label($this->getLabel($column))
             ->options(fn (): array => $this->getOptions())
-            ->attribute($attribute)
-            ->indicateUsing(fn (): array => []);
+            ->attribute($attribute);
 
         if ($this->isMultiple) {
             $filter->multiple();

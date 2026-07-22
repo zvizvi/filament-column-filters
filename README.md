@@ -8,7 +8,7 @@ Adds a small filter icon to the header of any table column. Clicking it opens a 
 - **Date** — a date range with quick presets (today, yesterday, this week, last week, this month, last month, last 7 days, last 30 days, this year, last year) and a custom from/until range.
 - **Select** — a single or multi value picker.
 
-The header filters are backed by *real* Filament table filters, so they apply to the table query like any other filter — but they live only in the column header popup and do not clutter the standard filters dropdown or indicators. When you **sync with an existing filter** you already have on the table (via `syncWith()`), the popup reads and writes that filter's state, so choosing a value in the header popup updates the regular filter — indicators included — and vice versa.
+The header filters are backed by *real* Filament table filters, so they apply to the table query like any other filter and show the standard filter indicators (with working remove buttons) — but they do not clutter the standard filters dropdown. When you **sync with an existing filter** you already have on the table (via `syncWith()`), the popup reads and writes that filter's state, so choosing a value in the header popup updates the regular filter — dropdown included — and vice versa.
 
 RTL is fully supported and Hebrew translations are included.
 
@@ -63,7 +63,7 @@ public function table(Table $table): Table
 }
 ```
 
-That's it. Each configured column gets a filter icon in its header, and a matching filter is automatically registered on the table behind the scenes. The auto-registered filter exists only in the header popup — it does not show up in the standard filters dropdown or as an indicator. If you want the standard filter UI too, define a regular filter yourself and connect the two with `syncWith()`.
+That's it. Each configured column gets a filter icon in its header, and a matching filter is automatically registered on the table behind the scenes. The auto-registered filter shows up as a regular filter indicator when active (removable as usual), but it does not appear in the standard filters dropdown — the popup is its only editing UI. If you want it in the dropdown too, define a regular filter yourself and connect the two with `syncWith()`.
 
 ### Filter types
 
