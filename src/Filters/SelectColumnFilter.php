@@ -16,7 +16,10 @@ class SelectColumnFilter extends ColumnFilter
      */
     protected array | Closure | null $options = null;
 
-    protected bool $isMultiple = true;
+    /**
+     * Null until multiple() is called explicitly; defaults to multiple.
+     */
+    protected ?bool $isMultiple = null;
 
     public function getType(): string
     {
@@ -42,7 +45,7 @@ class SelectColumnFilter extends ColumnFilter
 
     public function isMultiple(): bool
     {
-        return $this->isMultiple;
+        return $this->isMultiple ?? true;
     }
 
     /**
@@ -66,20 +69,25 @@ class SelectColumnFilter extends ColumnFilter
     /**
      * A select column filter can only sync automatically with a SelectFilter
      * (its state shape is known): one named like the column, or any one
-     * filtering the same attribute.
+     * filtering the same attribute. When multiple() was set explicitly, a
+     * filter with a different selection mode is not a match — a separate
+     * filter is generated instead of forcing the popup into the other mode.
      */
     public function findExistingFilter(Table $table, Column $column): ?BaseFilter
     {
+        $matchesMode = fn (SelectFilter $filter): bool => $this->isMultiple === null
+            || $filter->isMultiple() === $this->isMultiple;
+
         $named = parent::findExistingFilter($table, $column);
 
-        if ($named instanceof SelectFilter) {
+        if ($named instanceof SelectFilter && $matchesMode($named)) {
             return $named;
         }
 
         $attribute = $this->getAttribute($column);
 
         foreach ($table->getFilters() as $filter) {
-            if ($filter instanceof SelectFilter && $filter->getAttribute() === $attribute) {
+            if ($filter instanceof SelectFilter && $filter->getAttribute() === $attribute && $matchesMode($filter)) {
                 return $filter;
             }
         }
@@ -96,7 +104,7 @@ class SelectColumnFilter extends ColumnFilter
             ->options(fn (): array => $this->getOptions())
             ->attribute($attribute);
 
-        if ($this->isMultiple) {
+        if ($this->isMultiple()) {
             $filter->multiple();
         }
 
@@ -107,7 +115,7 @@ class SelectColumnFilter extends ColumnFilter
         } elseif (str_contains($attribute, '.')) {
             // SelectFilter does not handle dotted attributes on its own, so
             // constrain through the relationship instead.
-            $isMultiple = $this->isMultiple;
+            $isMultiple = $this->isMultiple();
 
             $filter->query(function (Builder $query, array $data) use ($attribute, $isMultiple): Builder {
                 $values = $isMultiple ? ($data['values'] ?? []) : ($data['value'] ?? null);
@@ -131,14 +139,14 @@ class SelectColumnFilter extends ColumnFilter
 
     public function getDefaultState(): array
     {
-        return $this->isMultiple ? ['values' => []] : ['value' => null];
+        return $this->isMultiple() ? ['values' => []] : ['value' => null];
     }
 
     public function getPopupConfig(Column $column, Table $table, ?BaseFilter $targetFilter): array
     {
         $isMultiple = $targetFilter instanceof SelectFilter
             ? $targetFilter->isMultiple()
-            : $this->isMultiple;
+            : $this->isMultiple();
 
         $options = [];
 

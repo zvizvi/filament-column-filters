@@ -45,6 +45,12 @@ class DonorsTable extends Component implements HasActions, HasSchemas, HasTable
                         'closed' => 'Closed',
                     ])
                     ->multiple(),
+                SelectFilter::make('name_single')
+                    ->options([
+                        'Alice' => 'Alice',
+                        'Bob' => 'Bob',
+                    ])
+                    ->attribute('name'),
             ]);
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Filament\Tables\Filters\SelectFilter;
+use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\Donor;
 use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTable;
 
@@ -138,4 +139,33 @@ it('searches through the column search columns when the column name is an access
         ->set('tableFilters.cf_display_name.value', 'Ali')
         ->assertCanSeeTableRecords([$alice])
         ->assertCanNotSeeTableRecords([$bob]);
+});
+
+it('adopts the mode of a matching single select filter when multiple() was not set', function () {
+    $table = livewire(DonorsTable::class)->instance()->getTable();
+    $column = $table->getColumn('name');
+
+    $match = ColumnFilter::select()->findExistingFilter($table, $column);
+
+    expect($match)->toBeInstanceOf(SelectFilter::class)
+        ->and($match->getName())->toBe('name_single');
+});
+
+it('does not auto-sync an explicitly multiple column filter with a single select filter', function () {
+    $table = livewire(DonorsTable::class)->instance()->getTable();
+    $column = $table->getColumn('name');
+
+    $match = ColumnFilter::select()->multiple()->findExistingFilter($table, $column);
+
+    expect($match)->toBeNull();
+});
+
+it('auto-syncs an explicitly multiple column filter with a multiple select filter', function () {
+    $table = livewire(DonorsTable::class)->instance()->getTable();
+    $column = $table->getColumn('status');
+
+    $match = ColumnFilter::select()->multiple()->findExistingFilter($table, $column);
+
+    expect($match)->toBeInstanceOf(SelectFilter::class)
+        ->and($match->getName())->toBe('status');
 });
