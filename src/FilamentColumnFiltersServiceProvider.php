@@ -24,14 +24,13 @@ class FilamentColumnFiltersServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        // Assets are registered globally so they are available to any panel,
+        // but the column filter behaviour itself is only activated when the
+        // plugin is registered on a panel — see FilamentColumnFiltersPlugin.
         FilamentAsset::register(
             $this->getAssets(),
             $this->getAssetPackageName()
         );
-
-        FilamentColumnFilters::registerColumnMacro();
-
-        FilamentColumnFilters::registerLivewireListeners();
     }
 
     protected function getAssetPackageName(): string

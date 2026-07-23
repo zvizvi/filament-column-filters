@@ -14,7 +14,13 @@ class FilamentColumnFiltersPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        //
+        // Registering the plugin on a panel is what activates the feature:
+        // the column macro and the Livewire listeners that decorate headers
+        // and register the generated filters are only wired up here. Without
+        // this, `->columnFilter()` is not available and nothing is decorated.
+        FilamentColumnFilters::registerColumnMacro();
+
+        FilamentColumnFilters::registerLivewireListeners();
     }
 
     public function boot(Panel $panel): void

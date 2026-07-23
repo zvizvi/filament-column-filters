@@ -19,7 +19,7 @@ RTL is fully supported and Hebrew translations are included.
 composer require zvizvi/filament-column-filters
 ```
 
-The package registers itself automatically. No panel configuration is required, but you may register the plugin on a panel if you prefer being explicit:
+Register the plugin on each panel that should have column filters. This is required — the `columnFilter()` method and the header popups only become available on panels where the plugin is registered:
 
 ```php
 use Zvizvi\FilamentColumnFilters\FilamentColumnFiltersPlugin;

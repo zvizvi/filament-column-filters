@@ -17,6 +17,7 @@ use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 use Zvizvi\FilamentColumnFilters\FilamentColumnFiltersServiceProvider;
+use Zvizvi\FilamentColumnFilters\Tests\Fixtures\TestPanelProvider;
 
 class TestCase extends Orchestra
 {
@@ -37,6 +38,7 @@ class TestCase extends Orchestra
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
             FilamentColumnFiltersServiceProvider::class,
+            TestPanelProvider::class,
         ];
 
         sort($providers);
