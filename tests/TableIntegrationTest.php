@@ -3,12 +3,12 @@
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
-use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
-use Zvizvi\FilamentColumnTools\Tests\Fixtures\Category;
-use Zvizvi\FilamentColumnTools\Tests\Fixtures\Donor;
-use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTable;
-use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTableWithCustomDateFilter;
-use Zvizvi\FilamentColumnTools\Tests\Fixtures\Team;
+use Zvizvi\FilamentColumnFilters\Filters\ColumnFilter;
+use Zvizvi\FilamentColumnFilters\Tests\Fixtures\Category;
+use Zvizvi\FilamentColumnFilters\Tests\Fixtures\Donor;
+use Zvizvi\FilamentColumnFilters\Tests\Fixtures\DonorsTable;
+use Zvizvi\FilamentColumnFilters\Tests\Fixtures\DonorsTableWithCustomDateFilter;
+use Zvizvi\FilamentColumnFilters\Tests\Fixtures\Team;
 
 use function Pest\Livewire\livewire;
 
@@ -39,8 +39,8 @@ it('auto-syncs with an existing filter on the same attribute without syncWith', 
 
 it('decorates configured column headers with the filter popup', function () {
     livewire(DonorsTable::class)
-        ->assertSeeHtml('fct-trigger')
-        ->assertSeeHtml('filamentColumnTools(');
+        ->assertSeeHtml('fcf-trigger')
+        ->assertSeeHtml('filamentColumnFilters(');
 });
 
 it('filters records through the generated search filter', function () {

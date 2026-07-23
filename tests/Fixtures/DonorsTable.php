@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools\Tests\Fixtures;
+namespace Zvizvi\FilamentColumnFilters\Tests\Fixtures;
 
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -13,7 +13,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
-use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
+use Zvizvi\FilamentColumnFilters\Filters\ColumnFilter;
 
 class DonorsTable extends Component implements HasActions, HasSchemas, HasTable
 {
@@ -61,6 +61,6 @@ class DonorsTable extends Component implements HasActions, HasSchemas, HasTable
 
     public function render(): View
     {
-        return view('filament-column-tools-tests::donors-table');
+        return view('filament-column-filters-tests::donors-table');
     }
 }

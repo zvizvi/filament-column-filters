@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools\Filters;
+namespace Zvizvi\FilamentColumnFilters\Filters;
 
 use Closure;
 use Filament\Forms\Components\Field;

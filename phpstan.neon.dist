@@ -10,7 +10,7 @@ parameters:
         # Macro closures are rebound to the column instance at runtime.
         -
             identifier: variable.undefined
-            path: src/FilamentColumnTools.php
+            path: src/FilamentColumnFilters.php
         -
             identifier: varTag.variableNotFound
-            path: src/FilamentColumnTools.php
+            path: src/FilamentColumnFilters.php

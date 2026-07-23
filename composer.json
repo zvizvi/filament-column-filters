@@ -1,5 +1,5 @@
 {
-    "name": "zvizvi/filament-column-tools",
+    "name": "zvizvi/filament-column-filters",
     "description": "Excel-style column header filters for Filament tables, with search, date range and multi-select filter types that sync with regular table filters.",
     "keywords": [
         "zvizvi",
@@ -7,14 +7,14 @@
         "filamentphp",
         "filament",
         "filament-plugin",
-        "filament-column-tools",
+        "filament-column-filters",
         "table",
         "filters"
     ],
-    "homepage": "https://github.com/zvizvi/filament-column-tools",
+    "homepage": "https://github.com/zvizvi/filament-column-filters",
     "support": {
-        "issues": "https://github.com/zvizvi/filament-column-tools/issues",
-        "source": "https://github.com/zvizvi/filament-column-tools"
+        "issues": "https://github.com/zvizvi/filament-column-filters/issues",
+        "source": "https://github.com/zvizvi/filament-column-filters"
     },
     "license": "MIT",
     "authors": [
@@ -45,12 +45,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Zvizvi\\FilamentColumnTools\\": "src/"
+            "Zvizvi\\FilamentColumnFilters\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zvizvi\\FilamentColumnTools\\Tests\\": "tests/"
+            "Zvizvi\\FilamentColumnFilters\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -65,7 +65,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Zvizvi\\FilamentColumnTools\\FilamentColumnToolsServiceProvider"
+                "Zvizvi\\FilamentColumnFilters\\FilamentColumnFiltersServiceProvider"
             ]
         }
     },

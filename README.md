@@ -1,4 +1,4 @@
-# Filament Column Tools
+# Filament Column Filters
 
 Excel-style column header filters for [Filament](https://filamentphp.com) tables.
 
@@ -16,17 +16,17 @@ RTL is fully supported and Hebrew translations are included.
 ## Installation
 
 ```bash
-composer require zvizvi/filament-column-tools
+composer require zvizvi/filament-column-filters
 ```
 
 The package registers itself automatically. No panel configuration is required, but you may register the plugin on a panel if you prefer being explicit:
 
 ```php
-use Zvizvi\FilamentColumnTools\FilamentColumnToolsPlugin;
+use Zvizvi\FilamentColumnFilters\FilamentColumnFiltersPlugin;
 
 public function panel(Panel $panel): Panel
 {
-    return $panel->plugin(FilamentColumnToolsPlugin::make());
+    return $panel->plugin(FilamentColumnFiltersPlugin::make());
 }
 ```
 
@@ -36,7 +36,7 @@ Attach a filter to any table column with the `columnFilter()` method:
 
 ```php
 use Filament\Tables\Columns\TextColumn;
-use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
+use Zvizvi\FilamentColumnFilters\Filters\ColumnFilter;
 
 public function table(Table $table): Table
 {
@@ -193,7 +193,7 @@ Columns whose name contains a dot (e.g. `author.name`) are filtered through the 
 English and Hebrew translations are included. Publish them to customize:
 
 ```bash
-php artisan vendor:publish --tag=filament-column-tools-translations
+php artisan vendor:publish --tag=filament-column-filters-translations
 ```
 
 ## Development

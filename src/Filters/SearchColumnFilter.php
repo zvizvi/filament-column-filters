@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools\Filters;
+namespace Zvizvi\FilamentColumnFilters\Filters;
 
 use Closure;
 use Filament\Forms\Components\TextInput;
@@ -226,7 +226,7 @@ class SearchColumnFilter extends ColumnFilter
 
     public function getPlaceholder(Column $column): string
     {
-        return $this->placeholder ?? __('filament-column-tools::filters.search_placeholder', [
+        return $this->placeholder ?? __('filament-column-filters::filters.search_placeholder', [
             'label' => $this->getLabel($column),
         ]);
     }

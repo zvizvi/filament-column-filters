@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools\Filters;
+namespace Zvizvi\FilamentColumnFilters\Filters;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\Column;
@@ -39,10 +39,10 @@ class RangeColumnFilter extends ColumnFilter
             ->label($label)
             ->schema([
                 TextInput::make('from')
-                    ->label(__('filament-column-tools::filters.range_from'))
+                    ->label(__('filament-column-filters::filters.range_from'))
                     ->numeric(),
                 TextInput::make('until')
-                    ->label(__('filament-column-tools::filters.range_until'))
+                    ->label(__('filament-column-filters::filters.range_until'))
                     ->numeric(),
             ])
             ->query(function (Builder $query, array $data) use ($attribute, $applyUsing): Builder {
@@ -75,14 +75,14 @@ class RangeColumnFilter extends ColumnFilter
                 $indicators = [];
 
                 if (filled($data['from'] ?? null)) {
-                    $indicators[] = Indicator::make(__('filament-column-tools::filters.indicator_min', [
+                    $indicators[] = Indicator::make(__('filament-column-filters::filters.indicator_min', [
                         'label' => $label,
                         'value' => $data['from'],
                     ]))->removeField('from');
                 }
 
                 if (filled($data['until'] ?? null)) {
-                    $indicators[] = Indicator::make(__('filament-column-tools::filters.indicator_max', [
+                    $indicators[] = Indicator::make(__('filament-column-filters::filters.indicator_max', [
                         'label' => $label,
                         'value' => $data['until'],
                     ]))->removeField('until');

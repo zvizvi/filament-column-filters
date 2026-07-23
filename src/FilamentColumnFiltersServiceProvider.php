@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools;
+namespace Zvizvi\FilamentColumnFilters;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
@@ -9,11 +9,11 @@ use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentColumnToolsServiceProvider extends PackageServiceProvider
+class FilamentColumnFiltersServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'filament-column-tools';
+    public static string $name = 'filament-column-filters';
 
-    public static string $viewNamespace = 'filament-column-tools';
+    public static string $viewNamespace = 'filament-column-filters';
 
     public function configurePackage(Package $package): void
     {
@@ -29,14 +29,14 @@ class FilamentColumnToolsServiceProvider extends PackageServiceProvider
             $this->getAssetPackageName()
         );
 
-        FilamentColumnTools::registerColumnMacro();
+        FilamentColumnFilters::registerColumnMacro();
 
-        FilamentColumnTools::registerLivewireListeners();
+        FilamentColumnFilters::registerLivewireListeners();
     }
 
     protected function getAssetPackageName(): string
     {
-        return 'zvizvi/filament-column-tools';
+        return 'zvizvi/filament-column-filters';
     }
 
     /**
@@ -45,8 +45,8 @@ class FilamentColumnToolsServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('filament-column-tools', __DIR__ . '/../resources/dist/components/filament-column-tools.js'),
-            Css::make('filament-column-tools-styles', __DIR__ . '/../resources/dist/filament-column-tools.css'),
+            AlpineComponent::make('filament-column-filters', __DIR__ . '/../resources/dist/components/filament-column-filters.js'),
+            Css::make('filament-column-filters-styles', __DIR__ . '/../resources/dist/filament-column-filters.css'),
         ];
     }
 }

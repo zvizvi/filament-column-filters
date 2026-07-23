@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools\Filters;
+namespace Zvizvi\FilamentColumnFilters\Filters;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\Column;
@@ -70,9 +70,9 @@ class DateColumnFilter extends ColumnFilter
             ->label($label)
             ->schema([
                 DatePicker::make('from')
-                    ->label(__('filament-column-tools::filters.from_date')),
+                    ->label(__('filament-column-filters::filters.from_date')),
                 DatePicker::make('until')
-                    ->label(__('filament-column-tools::filters.until_date')),
+                    ->label(__('filament-column-filters::filters.until_date')),
             ])
             ->query(function (Builder $query, array $data) use ($attribute, $applyUsing): Builder {
                 if ($applyUsing !== null) {
@@ -104,14 +104,14 @@ class DateColumnFilter extends ColumnFilter
                 $indicators = [];
 
                 if (filled($data['from'] ?? null)) {
-                    $indicators[] = Indicator::make(__('filament-column-tools::filters.indicator_from', [
+                    $indicators[] = Indicator::make(__('filament-column-filters::filters.indicator_from', [
                         'label' => $label,
                         'date' => $data['from'],
                     ]))->removeField('from');
                 }
 
                 if (filled($data['until'] ?? null)) {
-                    $indicators[] = Indicator::make(__('filament-column-tools::filters.indicator_until', [
+                    $indicators[] = Indicator::make(__('filament-column-filters::filters.indicator_until', [
                         'label' => $label,
                         'date' => $data['until'],
                     ]))->removeField('until');

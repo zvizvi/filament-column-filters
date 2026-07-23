@@ -1,15 +1,15 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools;
+namespace Zvizvi\FilamentColumnFilters;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class FilamentColumnToolsPlugin implements Plugin
+class FilamentColumnFiltersPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'filament-column-tools';
+        return 'filament-column-filters';
     }
 
     public function register(Panel $panel): void

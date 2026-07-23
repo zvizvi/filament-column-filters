@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools;
+namespace Zvizvi\FilamentColumnFilters;
 
 use Error;
 use Filament\Tables\Columns\Column;
@@ -10,11 +10,11 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use WeakMap;
-use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
+use Zvizvi\FilamentColumnFilters\Filters\ColumnFilter;
 
 use function Livewire\on;
 
-class FilamentColumnTools
+class FilamentColumnFilters
 {
     /**
      * @var WeakMap<Column, ColumnFilter> | null
@@ -34,7 +34,7 @@ class FilamentColumnTools
 
         Column::macro('columnFilter', function (ColumnFilter $filter) {
             /** @var Column $this */
-            FilamentColumnTools::attach($this, $filter);
+            FilamentColumnFilters::attach($this, $filter);
 
             return $this;
         });
@@ -252,7 +252,7 @@ class FilamentColumnTools
         $popupConfig = $config->getPopupConfig($column, $table, $targetFilter);
         $popupConfig['filterName'] = $filterName;
 
-        $html = view('filament-column-tools::column-filter-header', [
+        $html = view('filament-column-filters::column-filter-header', [
             'labelHtml' => $labelHtml,
             'type' => $config->getType(),
             'config' => $popupConfig,
@@ -262,7 +262,7 @@ class FilamentColumnTools
         $column
             ->label(new HtmlString($html))
             ->translateLabel(false)
-            ->extraHeaderAttributes(['class' => 'fct-th'], merge: true);
+            ->extraHeaderAttributes(['class' => 'fcf-th'], merge: true);
     }
 
     /**

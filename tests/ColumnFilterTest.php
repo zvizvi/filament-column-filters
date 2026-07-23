@@ -2,13 +2,13 @@
 
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Zvizvi\FilamentColumnTools\FilamentColumnTools;
-use Zvizvi\FilamentColumnTools\Filters\ColumnFilter;
-use Zvizvi\FilamentColumnTools\Filters\DateColumnFilter;
-use Zvizvi\FilamentColumnTools\Filters\RangeColumnFilter;
-use Zvizvi\FilamentColumnTools\Filters\SearchColumnFilter;
-use Zvizvi\FilamentColumnTools\Filters\SelectColumnFilter;
-use Zvizvi\FilamentColumnTools\Tests\Fixtures\DonorsTable;
+use Zvizvi\FilamentColumnFilters\FilamentColumnFilters;
+use Zvizvi\FilamentColumnFilters\Filters\ColumnFilter;
+use Zvizvi\FilamentColumnFilters\Filters\DateColumnFilter;
+use Zvizvi\FilamentColumnFilters\Filters\RangeColumnFilter;
+use Zvizvi\FilamentColumnFilters\Filters\SearchColumnFilter;
+use Zvizvi\FilamentColumnFilters\Filters\SelectColumnFilter;
+use Zvizvi\FilamentColumnFilters\Tests\Fixtures\DonorsTable;
 
 use function Pest\Livewire\livewire;
 
@@ -19,7 +19,7 @@ it('registers the columnFilter macro on columns', function () {
 it('attaches a column filter to a column through the macro', function () {
     $column = TextColumn::make('name')->columnFilter(ColumnFilter::search());
 
-    expect(FilamentColumnTools::getColumnFilter($column))
+    expect(FilamentColumnFilters::getColumnFilter($column))
         ->toBeInstanceOf(SearchColumnFilter::class);
 });
 

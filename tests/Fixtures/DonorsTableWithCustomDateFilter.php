@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools\Tests\Fixtures;
+namespace Zvizvi\FilamentColumnFilters\Tests\Fixtures;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;

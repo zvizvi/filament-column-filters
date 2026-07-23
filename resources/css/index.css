@@ -1,4 +1,4 @@
-.fct-header {
+.fcf-header {
     display: inline-flex;
     align-items: center;
 }
@@ -8,24 +8,24 @@
  * far (inline-end) edge of the header cell — after the sort icon — flush left
  * in RTL and flush right in LTR.
  */
-th.fct-th {
+th.fcf-th {
     position: relative;
     padding-inline-end: 2.25rem;
 }
 
-.fct {
+.fcf {
     display: inline-flex;
     align-items: center;
 }
 
-th.fct-th .fct {
+th.fcf-th .fcf {
     position: absolute;
     inset-inline-end: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.fct-trigger {
+.fcf-trigger {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -38,29 +38,29 @@ th.fct-th .fct {
     transition: color 0.15s ease, background-color 0.15s ease;
 }
 
-.fct-trigger:hover,
-.fct-trigger:focus-visible {
+.fcf-trigger:hover,
+.fcf-trigger:focus-visible {
     color: rgb(75 85 99);
     background-color: rgb(0 0 0 / 0.05);
     outline: none;
 }
 
-.dark .fct-trigger:hover,
-.dark .fct-trigger:focus-visible {
+.dark .fcf-trigger:hover,
+.dark .fcf-trigger:focus-visible {
     color: rgb(209 213 219);
     background-color: rgb(255 255 255 / 0.1);
 }
 
-.fct-trigger--active {
+.fcf-trigger--active {
     color: var(--primary-600, rgb(59 130 246));
 }
 
-.fct-trigger--active:hover,
-.fct-trigger--active:focus-visible {
+.fcf-trigger--active:hover,
+.fcf-trigger--active:focus-visible {
     color: var(--primary-500, rgb(37 99 235));
 }
 
-.fct-active-dot {
+.fcf-active-dot {
     display: none;
     position: absolute;
     top: 0.125rem;
@@ -71,11 +71,11 @@ th.fct-th .fct {
     background-color: var(--primary-500, rgb(59 130 246));
 }
 
-.fct-trigger--active .fct-active-dot {
+.fcf-trigger--active .fcf-active-dot {
     display: block;
 }
 
-.fct-icon {
+.fcf-icon {
     width: 0.875rem;
     height: 0.875rem;
 }
@@ -86,7 +86,7 @@ th.fct-th .fct {
  * ever participates in document flow it stretches the page and makes the main
  * scrollbar jump.
  */
-.fct-panel {
+.fcf-panel {
     display: none;
     position: fixed;
     z-index: 60;
@@ -102,38 +102,38 @@ th.fct-th .fct {
     text-align: start;
 }
 
-.dark .fct-panel {
+.dark .fcf-panel {
     background-color: rgb(31 41 55);
     border-color: rgb(255 255 255 / 0.1);
     color: rgb(209 213 219);
 }
 
-.fct-panel--open {
+.fcf-panel--open {
     display: block;
 }
 
-.fct-section + .fct-section {
+.fcf-section + .fcf-section {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
     border-top: 1px solid rgb(243 244 246);
 }
 
-.dark .fct-section + .fct-section {
+.dark .fcf-section + .fcf-section {
     border-top-color: rgb(255 255 255 / 0.08);
 }
 
-.fct-section-title {
+.fcf-section-title {
     margin: 0 0 0.5rem;
     font-size: 0.75rem;
     font-weight: 500;
     color: rgb(107 114 128);
 }
 
-.dark .fct-section-title {
+.dark .fcf-section-title {
     color: rgb(156 163 175);
 }
 
-.fct-input {
+.fcf-input {
     display: block;
     width: 100%;
     padding: 0.375rem 0.625rem;
@@ -146,23 +146,23 @@ th.fct-th .fct {
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.fct-input:focus {
+.fcf-input:focus {
     border-color: var(--primary-500, rgb(59 130 246));
     box-shadow: 0 0 0 1px var(--primary-500, rgb(59 130 246));
 }
 
-.dark .fct-input {
+.dark .fcf-input {
     background-color: rgb(17 24 39);
     border-color: rgb(255 255 255 / 0.15);
 }
 
-.fct-presets {
+.fcf-presets {
     display: flex;
     flex-wrap: wrap;
     gap: 0.375rem;
 }
 
-.fct-chip {
+.fcf-chip {
     padding: 0.25rem 0.625rem;
     border-radius: 0.5rem;
     border: 1px solid rgb(209 213 219);
@@ -173,72 +173,72 @@ th.fct-th .fct {
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-.fct-chip:hover {
+.fcf-chip:hover {
     background-color: rgb(243 244 246);
 }
 
-.fct-chip--active {
+.fcf-chip--active {
     border-color: var(--primary-500, rgb(59 130 246));
     background-color: rgb(239 246 255);
     background-color: color-mix(in srgb, var(--primary-500, rgb(59 130 246)) 10%, transparent);
     color: var(--primary-600, rgb(29 78 216));
 }
 
-.dark .fct-chip {
+.dark .fcf-chip {
     background-color: rgb(17 24 39);
     border-color: rgb(255 255 255 / 0.15);
     color: rgb(209 213 219);
 }
 
-.dark .fct-chip:hover {
+.dark .fcf-chip:hover {
     background-color: rgb(255 255 255 / 0.08);
 }
 
-.dark .fct-chip--active {
+.dark .fcf-chip--active {
     border-color: var(--primary-500, rgb(59 130 246));
     background-color: rgb(30 58 138 / 0.4);
     background-color: color-mix(in srgb, var(--primary-500, rgb(59 130 246)) 25%, transparent);
     color: var(--primary-300, rgb(147 197 253));
 }
 
-.fct-date-range {
+.fcf-date-range {
     display: flex;
     gap: 0.5rem;
 }
 
-.fct-field {
+.fcf-field {
     flex: 1;
     display: block;
 }
 
-.fct-field-label {
+.fcf-field-label {
     display: block;
     margin-bottom: 0.25rem;
     font-size: 0.75rem;
     color: rgb(107 114 128);
 }
 
-.dark .fct-field-label {
+.dark .fcf-field-label {
     color: rgb(156 163 175);
 }
 
-.fct-panel [x-cloak] {
+.fcf-panel [x-cloak] {
     display: none !important;
 }
 
-.fct-bulk-actions {
+.fcf-bulk-actions {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 0.25rem;
 }
 
-.fct-bulk-actions .fct-link {
+.fcf-bulk-actions .fcf-link {
     padding: 0.125rem 0;
     font-size: 0.8125rem;
 }
 
-.fct-options {
+.fcf-options {
     max-height: 14rem;
     overflow-y: auto;
     display: flex;
@@ -246,7 +246,7 @@ th.fct-th .fct {
     gap: 0.125rem;
 }
 
-.fct-option {
+.fcf-option {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -256,30 +256,30 @@ th.fct-th .fct {
     transition: background-color 0.15s ease;
 }
 
-.fct-option:hover {
+.fcf-option:hover {
     background-color: rgb(243 244 246);
 }
 
-.dark .fct-option:hover {
+.dark .fcf-option:hover {
     background-color: rgb(255 255 255 / 0.08);
 }
 
-.fct-checkbox,
-.fct-radio {
+.fcf-checkbox,
+.fcf-radio {
     width: 1rem;
     height: 1rem;
     accent-color: var(--primary-500, rgb(59 130 246));
     cursor: pointer;
 }
 
-.fct-empty {
+.fcf-empty {
     margin: 0;
     padding: 0.5rem;
     color: rgb(156 163 175);
     font-size: 0.8125rem;
 }
 
-.fct-footer {
+.fcf-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -289,17 +289,17 @@ th.fct-th .fct {
     border-top: 1px solid rgb(243 244 246);
 }
 
-.dark .fct-footer {
+.dark .fcf-footer {
     border-top-color: rgb(255 255 255 / 0.08);
 }
 
-.fct-footer-group {
+.fcf-footer-group {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.fct-btn {
+.fcf-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
@@ -314,46 +314,46 @@ th.fct-th .fct {
     transition: background-color 0.15s ease;
 }
 
-.fct-btn:hover {
+.fcf-btn:hover {
     background-color: rgb(243 244 246);
 }
 
-.dark .fct-btn {
+.dark .fcf-btn {
     background-color: rgb(17 24 39);
     border-color: rgb(255 255 255 / 0.15);
     color: rgb(209 213 219);
 }
 
-.dark .fct-btn:hover {
+.dark .fcf-btn:hover {
     background-color: rgb(255 255 255 / 0.08);
 }
 
-.fct-btn--primary {
+.fcf-btn--primary {
     border-color: var(--primary-600, rgb(59 130 246));
     background-color: var(--primary-600, rgb(59 130 246));
     color: white;
 }
 
-.fct-btn--primary:hover {
+.fcf-btn--primary:hover {
     background-color: var(--primary-500, rgb(37 99 235));
 }
 
-.dark .fct-btn--primary {
+.dark .fcf-btn--primary {
     background-color: var(--primary-600, rgb(59 130 246));
     border-color: var(--primary-600, rgb(59 130 246));
     color: white;
 }
 
-.dark .fct-btn--primary:hover {
+.dark .fcf-btn--primary:hover {
     background-color: var(--primary-500, rgb(37 99 235));
 }
 
-.fct-btn-icon {
+.fcf-btn-icon {
     width: 0.875rem;
     height: 0.875rem;
 }
 
-.fct-link {
+.fcf-link {
     padding: 0.25rem;
     border: none;
     background: none;
@@ -362,6 +362,6 @@ th.fct-th .fct {
     cursor: pointer;
 }
 
-.fct-link:hover {
+.fcf-link:hover {
     text-decoration: underline;
 }

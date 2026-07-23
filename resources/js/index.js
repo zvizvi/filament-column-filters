@@ -76,7 +76,7 @@ export function presetRange(preset, weekStartsOn = 0) {
 // page — opening one closes the currently open one.
 let openInstance = null
 
-export default function filamentColumnTools(config) {
+export default function filamentColumnFilters(config) {
     return {
         open: false,
 

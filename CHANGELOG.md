@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `filament-column-tools` will be documented in this file.
+All notable changes to `filament-column-filters` will be documented in this file.
 
 ## Unreleased
 

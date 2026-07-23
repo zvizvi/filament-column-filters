@@ -1,6 +1,6 @@
 <?php
 
-namespace Zvizvi\FilamentColumnTools\Tests;
+namespace Zvizvi\FilamentColumnFilters\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
@@ -16,7 +16,7 @@ use Filament\Widgets\WidgetsServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use Zvizvi\FilamentColumnTools\FilamentColumnToolsServiceProvider;
+use Zvizvi\FilamentColumnFilters\FilamentColumnFiltersServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -36,7 +36,7 @@ class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
-            FilamentColumnToolsServiceProvider::class,
+            FilamentColumnFiltersServiceProvider::class,
         ];
 
         sort($providers);
@@ -53,7 +53,7 @@ class TestCase extends Orchestra
             'database' => ':memory:',
         ]);
 
-        $app['view']->addNamespace('filament-column-tools-tests', __DIR__ . '/Fixtures/views');
+        $app['view']->addNamespace('filament-column-filters-tests', __DIR__ . '/Fixtures/views');
     }
 
     protected function defineDatabaseMigrations(): void
