@@ -42,12 +42,12 @@ public function table(Table $table): Table
 {
     return $table
         ->columns([
-            TextColumn::make('donor_name')
-                ->label('שם התורם')
+            TextColumn::make('user_name')
+                ->label('User Name')
                 ->columnFilter(ColumnFilter::search()),
 
             TextColumn::make('created_at')
-                ->label('תאריך')
+                ->label('Date')
                 ->date()
                 ->columnFilter(ColumnFilter::date()),
 
@@ -55,8 +55,8 @@ public function table(Table $table): Table
                 ->columnFilter(
                     ColumnFilter::select()
                         ->options([
-                            'open' => 'פתוח',
-                            'closed' => 'סגור',
+                            'open' => 'Open',
+                            'closed' => 'Closed',
                         ])
                         ->multiple(),
                 ),
@@ -72,7 +72,7 @@ That's it. Each configured column gets a filter icon in its header, and a matchi
 
 ```php
 ColumnFilter::search()
-    ->placeholder('חפש שם התורם') // optional, defaults to "Search {label}"
+    ->placeholder('Search Name') // optional, defaults to "Search {label}"
 ```
 
 Performs a `LIKE %value%` search on the column.
@@ -143,8 +143,8 @@ $table
     ->filters([
         SelectFilter::make('status')
             ->options([
-                'open' => 'פתוח',
-                'closed' => 'סגור',
+                'open' => 'Open',
+                'closed' => 'Closed',
             ])
             ->multiple(),
     ]);
