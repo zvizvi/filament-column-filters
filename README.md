@@ -225,6 +225,7 @@ Most variables derive from `--fcf-accent`, so overriding that alone recolours th
 | `--fcf-trigger-color` / `--fcf-trigger-color-hover` | Header icon, idle and hovered |
 | `--fcf-trigger-bg-hover` | Header icon hover background |
 | `--fcf-trigger-color-active` / `--fcf-trigger-color-active-hover` | Header icon while the filter is active |
+| `--fcf-trigger-color-open` / `--fcf-trigger-bg-open` | Header icon while its panel is open |
 | `--fcf-dot-bg` | Active-filter dot |
 | `--fcf-panel-bg` / `--fcf-panel-text` / `--fcf-panel-border` / `--fcf-panel-shadow` | Panel surface |
 | `--fcf-divider` | Section and footer separators |
