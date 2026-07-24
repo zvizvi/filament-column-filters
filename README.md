@@ -188,6 +188,52 @@ ColumnFilter::search()
 
 Columns whose name contains a dot (e.g. `author.name`) are filtered through the relationship automatically using `whereHas()`.
 
+## Styling
+
+Every colour is exposed as a CSS variable, so you can restyle the trigger and the panel without overriding rules. Declare the ones you want in a stylesheet loaded after the plugin's:
+
+```css
+:root {
+    --fcf-accent: #7c3aed;               /* defaults to the panel's primary colour */
+    --fcf-trigger-color: #d1d5db;        /* header icon, idle */
+    --fcf-trigger-color-hover: #4b5563;  /* header icon, hovered / focused */
+}
+
+.dark {
+    --fcf-trigger-color: #6b7280;
+    --fcf-panel-bg: #1f2937;
+}
+```
+
+Most variables derive from `--fcf-accent`, so overriding that alone recolours the active icon, the dot, the primary button, the links, the checkboxes and the active date presets.
+
+<details>
+<summary>All available variables</summary>
+
+| Variable | Purpose |
+| --- | --- |
+| `--fcf-accent` / `--fcf-accent-hover` | Accent colour and its hover shade |
+| `--fcf-accent-contrast` | Text on top of the accent |
+| `--fcf-accent-soft` / `--fcf-accent-soft-text` | Tinted background and text for active presets |
+| `--fcf-trigger-color` / `--fcf-trigger-color-hover` | Header icon, idle and hovered |
+| `--fcf-trigger-bg-hover` | Header icon hover background |
+| `--fcf-trigger-color-active` / `--fcf-trigger-color-active-hover` | Header icon while the filter is active |
+| `--fcf-dot-bg` | Active-filter dot |
+| `--fcf-panel-bg` / `--fcf-panel-text` / `--fcf-panel-border` / `--fcf-panel-shadow` | Panel surface |
+| `--fcf-divider` | Section and footer separators |
+| `--fcf-muted-text` / `--fcf-empty-text` | Section titles, field labels, empty states |
+| `--fcf-input-bg` / `--fcf-input-text` / `--fcf-input-border` | Inputs |
+| `--fcf-input-border-focus` / `--fcf-input-ring-focus` | Focused inputs |
+| `--fcf-control-accent` | Checkboxes and radios |
+| `--fcf-option-bg-hover` | Hovered option row |
+| `--fcf-chip-bg` / `--fcf-chip-bg-hover` / `--fcf-chip-border` / `--fcf-chip-text` | Date presets |
+| `--fcf-chip-active-bg` / `--fcf-chip-active-border` / `--fcf-chip-active-text` | Selected date preset |
+| `--fcf-btn-bg` / `--fcf-btn-bg-hover` / `--fcf-btn-border` / `--fcf-btn-text` | Secondary buttons |
+| `--fcf-btn-primary-bg` / `--fcf-btn-primary-bg-hover` / `--fcf-btn-primary-border` / `--fcf-btn-primary-text` | Primary button |
+| `--fcf-link-color` | Text links |
+
+</details>
+
 ## Translations
 
 English and Hebrew translations are included. Publish them to customize:

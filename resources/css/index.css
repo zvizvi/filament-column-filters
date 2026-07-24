@@ -1,3 +1,97 @@
+/*
+ * Every colour the plugin paints goes through one of these variables, so an app
+ * can restyle it by redeclaring them instead of overriding rules. Redeclare on
+ * :root (light) and .dark (dark) in a stylesheet loaded after this one.
+ *
+ * The accent defaults to the panel's primary colour; the rest default to a
+ * neutral grey scale matching Filament's own tables.
+ */
+:root {
+    --fcf-accent: var(--primary-600, rgb(37 99 235));
+    --fcf-accent-hover: var(--primary-500, rgb(59 130 246));
+    --fcf-accent-contrast: white;
+    --fcf-accent-soft: color-mix(in srgb, var(--fcf-accent) 10%, transparent);
+    --fcf-accent-soft-text: var(--fcf-accent);
+
+    /* Header trigger */
+    --fcf-trigger-color: rgb(209 213 219);
+    --fcf-trigger-color-hover: rgb(75 85 99);
+    --fcf-trigger-bg-hover: rgb(0 0 0 / 0.05);
+    --fcf-trigger-color-active: var(--fcf-accent);
+    --fcf-trigger-color-active-hover: var(--fcf-accent-hover);
+    --fcf-dot-bg: var(--fcf-accent);
+
+    /* Panel surface */
+    --fcf-panel-bg: white;
+    --fcf-panel-text: rgb(55 65 81);
+    --fcf-panel-border: rgb(229 231 235);
+    --fcf-panel-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.15), 0 4px 10px -6px rgb(0 0 0 / 0.1);
+    --fcf-divider: rgb(243 244 246);
+    --fcf-muted-text: rgb(107 114 128);
+    --fcf-empty-text: rgb(156 163 175);
+
+    /* Inputs */
+    --fcf-input-bg: white;
+    --fcf-input-text: inherit;
+    --fcf-input-border: rgb(209 213 219);
+    --fcf-input-border-focus: var(--fcf-accent);
+    --fcf-input-ring-focus: var(--fcf-accent);
+    --fcf-control-accent: var(--fcf-accent);
+
+    /* Option rows */
+    --fcf-option-bg-hover: rgb(243 244 246);
+
+    /* Preset chips */
+    --fcf-chip-bg: white;
+    --fcf-chip-bg-hover: rgb(243 244 246);
+    --fcf-chip-border: rgb(209 213 219);
+    --fcf-chip-text: rgb(55 65 81);
+    --fcf-chip-active-bg: var(--fcf-accent-soft);
+    --fcf-chip-active-border: var(--fcf-accent);
+    --fcf-chip-active-text: var(--fcf-accent-soft-text);
+
+    /* Buttons and links */
+    --fcf-btn-bg: white;
+    --fcf-btn-bg-hover: rgb(243 244 246);
+    --fcf-btn-border: rgb(209 213 219);
+    --fcf-btn-text: rgb(55 65 81);
+    --fcf-btn-primary-bg: var(--fcf-accent);
+    --fcf-btn-primary-bg-hover: var(--fcf-accent-hover);
+    --fcf-btn-primary-border: var(--fcf-accent);
+    --fcf-btn-primary-text: var(--fcf-accent-contrast);
+    --fcf-link-color: var(--fcf-accent);
+}
+
+.dark {
+    --fcf-accent-soft: color-mix(in srgb, var(--fcf-accent) 25%, transparent);
+    --fcf-accent-soft-text: var(--primary-300, rgb(147 197 253));
+
+    --fcf-trigger-color: rgb(107 114 128);
+    --fcf-trigger-color-hover: rgb(209 213 219);
+    --fcf-trigger-bg-hover: rgb(255 255 255 / 0.1);
+
+    --fcf-panel-bg: rgb(31 41 55);
+    --fcf-panel-text: rgb(209 213 219);
+    --fcf-panel-border: rgb(255 255 255 / 0.1);
+    --fcf-divider: rgb(255 255 255 / 0.08);
+    --fcf-muted-text: rgb(156 163 175);
+
+    --fcf-input-bg: rgb(17 24 39);
+    --fcf-input-border: rgb(255 255 255 / 0.15);
+
+    --fcf-option-bg-hover: rgb(255 255 255 / 0.08);
+
+    --fcf-chip-bg: rgb(17 24 39);
+    --fcf-chip-bg-hover: rgb(255 255 255 / 0.08);
+    --fcf-chip-border: rgb(255 255 255 / 0.15);
+    --fcf-chip-text: rgb(209 213 219);
+
+    --fcf-btn-bg: rgb(17 24 39);
+    --fcf-btn-bg-hover: rgb(255 255 255 / 0.08);
+    --fcf-btn-border: rgb(255 255 255 / 0.15);
+    --fcf-btn-text: rgb(209 213 219);
+}
+
 .fcf-header {
     display: inline-flex;
     align-items: center;
@@ -33,31 +127,25 @@ th.fcf-th .fcf {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 0.375rem;
-    color: rgb(156 163 175);
+    color: var(--fcf-trigger-color);
     cursor: pointer;
     transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .fcf-trigger:hover,
 .fcf-trigger:focus-visible {
-    color: rgb(75 85 99);
-    background-color: rgb(0 0 0 / 0.05);
+    color: var(--fcf-trigger-color-hover);
+    background-color: var(--fcf-trigger-bg-hover);
     outline: none;
 }
 
-.dark .fcf-trigger:hover,
-.dark .fcf-trigger:focus-visible {
-    color: rgb(209 213 219);
-    background-color: rgb(255 255 255 / 0.1);
-}
-
 .fcf-trigger--active {
-    color: var(--primary-600, rgb(59 130 246));
+    color: var(--fcf-trigger-color-active);
 }
 
 .fcf-trigger--active:hover,
 .fcf-trigger--active:focus-visible {
-    color: var(--primary-500, rgb(37 99 235));
+    color: var(--fcf-trigger-color-active-hover);
 }
 
 .fcf-active-dot {
@@ -68,7 +156,7 @@ th.fcf-th .fcf {
     width: 0.375rem;
     height: 0.375rem;
     border-radius: 9999px;
-    background-color: var(--primary-500, rgb(59 130 246));
+    background-color: var(--fcf-dot-bg);
 }
 
 .fcf-trigger--active .fcf-active-dot {
@@ -94,18 +182,12 @@ th.fcf-th .fcf {
     max-width: calc(100vw - 1rem);
     padding: 0.75rem;
     border-radius: 0.75rem;
-    background-color: white;
-    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.15), 0 4px 10px -6px rgb(0 0 0 / 0.1);
-    border: 1px solid rgb(229 231 235);
+    background-color: var(--fcf-panel-bg);
+    box-shadow: var(--fcf-panel-shadow);
+    border: 1px solid var(--fcf-panel-border);
     font-size: 0.875rem;
-    color: rgb(55 65 81);
+    color: var(--fcf-panel-text);
     text-align: start;
-}
-
-.dark .fcf-panel {
-    background-color: rgb(31 41 55);
-    border-color: rgb(255 255 255 / 0.1);
-    color: rgb(209 213 219);
 }
 
 .fcf-panel--open {
@@ -115,22 +197,14 @@ th.fcf-th .fcf {
 .fcf-section + .fcf-section {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
-    border-top: 1px solid rgb(243 244 246);
-}
-
-.dark .fcf-section + .fcf-section {
-    border-top-color: rgb(255 255 255 / 0.08);
+    border-top: 1px solid var(--fcf-divider);
 }
 
 .fcf-section-title {
     margin: 0 0 0.5rem;
     font-size: 0.75rem;
     font-weight: 500;
-    color: rgb(107 114 128);
-}
-
-.dark .fcf-section-title {
-    color: rgb(156 163 175);
+    color: var(--fcf-muted-text);
 }
 
 .fcf-input {
@@ -138,22 +212,17 @@ th.fcf-th .fcf {
     width: 100%;
     padding: 0.375rem 0.625rem;
     border-radius: 0.5rem;
-    border: 1px solid rgb(209 213 219);
-    background-color: white;
-    color: inherit;
+    border: 1px solid var(--fcf-input-border);
+    background-color: var(--fcf-input-bg);
+    color: var(--fcf-input-text);
     font-size: 0.875rem;
     outline: none;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .fcf-input:focus {
-    border-color: var(--primary-500, rgb(59 130 246));
-    box-shadow: 0 0 0 1px var(--primary-500, rgb(59 130 246));
-}
-
-.dark .fcf-input {
-    background-color: rgb(17 24 39);
-    border-color: rgb(255 255 255 / 0.15);
+    border-color: var(--fcf-input-border-focus);
+    box-shadow: 0 0 0 1px var(--fcf-input-ring-focus);
 }
 
 .fcf-presets {
@@ -165,40 +234,22 @@ th.fcf-th .fcf {
 .fcf-chip {
     padding: 0.25rem 0.625rem;
     border-radius: 0.5rem;
-    border: 1px solid rgb(209 213 219);
-    background-color: white;
-    color: rgb(55 65 81);
+    border: 1px solid var(--fcf-chip-border);
+    background-color: var(--fcf-chip-bg);
+    color: var(--fcf-chip-text);
     font-size: 0.8125rem;
     cursor: pointer;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .fcf-chip:hover {
-    background-color: rgb(243 244 246);
+    background-color: var(--fcf-chip-bg-hover);
 }
 
 .fcf-chip--active {
-    border-color: var(--primary-500, rgb(59 130 246));
-    background-color: rgb(239 246 255);
-    background-color: color-mix(in srgb, var(--primary-500, rgb(59 130 246)) 10%, transparent);
-    color: var(--primary-600, rgb(29 78 216));
-}
-
-.dark .fcf-chip {
-    background-color: rgb(17 24 39);
-    border-color: rgb(255 255 255 / 0.15);
-    color: rgb(209 213 219);
-}
-
-.dark .fcf-chip:hover {
-    background-color: rgb(255 255 255 / 0.08);
-}
-
-.dark .fcf-chip--active {
-    border-color: var(--primary-500, rgb(59 130 246));
-    background-color: rgb(30 58 138 / 0.4);
-    background-color: color-mix(in srgb, var(--primary-500, rgb(59 130 246)) 25%, transparent);
-    color: var(--primary-300, rgb(147 197 253));
+    border-color: var(--fcf-chip-active-border);
+    background-color: var(--fcf-chip-active-bg);
+    color: var(--fcf-chip-active-text);
 }
 
 .fcf-date-range {
@@ -215,11 +266,7 @@ th.fcf-th .fcf {
     display: block;
     margin-bottom: 0.25rem;
     font-size: 0.75rem;
-    color: rgb(107 114 128);
-}
-
-.dark .fcf-field-label {
-    color: rgb(156 163 175);
+    color: var(--fcf-muted-text);
 }
 
 .fcf-panel [x-cloak] {
@@ -257,25 +304,21 @@ th.fcf-th .fcf {
 }
 
 .fcf-option:hover {
-    background-color: rgb(243 244 246);
-}
-
-.dark .fcf-option:hover {
-    background-color: rgb(255 255 255 / 0.08);
+    background-color: var(--fcf-option-bg-hover);
 }
 
 .fcf-checkbox,
 .fcf-radio {
     width: 1rem;
     height: 1rem;
-    accent-color: var(--primary-500, rgb(59 130 246));
+    accent-color: var(--fcf-control-accent);
     cursor: pointer;
 }
 
 .fcf-empty {
     margin: 0;
     padding: 0.5rem;
-    color: rgb(156 163 175);
+    color: var(--fcf-empty-text);
     font-size: 0.8125rem;
 }
 
@@ -286,11 +329,7 @@ th.fcf-th .fcf {
     gap: 0.5rem;
     margin-top: 0.75rem;
     padding-top: 0.75rem;
-    border-top: 1px solid rgb(243 244 246);
-}
-
-.dark .fcf-footer {
-    border-top-color: rgb(255 255 255 / 0.08);
+    border-top: 1px solid var(--fcf-divider);
 }
 
 .fcf-footer-group {
@@ -305,9 +344,9 @@ th.fcf-th .fcf {
     gap: 0.375rem;
     padding: 0.375rem 0.875rem;
     border-radius: 0.5rem;
-    border: 1px solid rgb(209 213 219);
-    background-color: white;
-    color: rgb(55 65 81);
+    border: 1px solid var(--fcf-btn-border);
+    background-color: var(--fcf-btn-bg);
+    color: var(--fcf-btn-text);
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
@@ -315,37 +354,17 @@ th.fcf-th .fcf {
 }
 
 .fcf-btn:hover {
-    background-color: rgb(243 244 246);
-}
-
-.dark .fcf-btn {
-    background-color: rgb(17 24 39);
-    border-color: rgb(255 255 255 / 0.15);
-    color: rgb(209 213 219);
-}
-
-.dark .fcf-btn:hover {
-    background-color: rgb(255 255 255 / 0.08);
+    background-color: var(--fcf-btn-bg-hover);
 }
 
 .fcf-btn--primary {
-    border-color: var(--primary-600, rgb(59 130 246));
-    background-color: var(--primary-600, rgb(59 130 246));
-    color: white;
+    border-color: var(--fcf-btn-primary-border);
+    background-color: var(--fcf-btn-primary-bg);
+    color: var(--fcf-btn-primary-text);
 }
 
 .fcf-btn--primary:hover {
-    background-color: var(--primary-500, rgb(37 99 235));
-}
-
-.dark .fcf-btn--primary {
-    background-color: var(--primary-600, rgb(59 130 246));
-    border-color: var(--primary-600, rgb(59 130 246));
-    color: white;
-}
-
-.dark .fcf-btn--primary:hover {
-    background-color: var(--primary-500, rgb(37 99 235));
+    background-color: var(--fcf-btn-primary-bg-hover);
 }
 
 .fcf-btn-icon {
@@ -357,7 +376,7 @@ th.fcf-th .fcf {
     padding: 0.25rem;
     border: none;
     background: none;
-    color: var(--primary-600, rgb(59 130 246));
+    color: var(--fcf-link-color);
     font-size: 0.875rem;
     cursor: pointer;
 }
