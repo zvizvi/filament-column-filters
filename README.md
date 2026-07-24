@@ -1,6 +1,13 @@
+<a href="https://github.com/zvizvi/filament-column-filters" class="filament-hidden">
+
+![banner](https://github.com/user-attachments/assets/46003e9b-27c9-4c1d-b5a1-f608adf0da59)
+
+
+</a>
+
 # Filament Column Filters
 
-Excel-style column header filters for [Filament](https://filamentphp.com) tables.
+Excel-style column header filters for Filament tables.
 
 Adds a small filter icon to the header of any table column. Clicking it opens a popup toolbar — just like the column filters you know from Excel — with a filter type you choose per column:
 
