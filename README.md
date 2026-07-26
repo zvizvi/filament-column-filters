@@ -195,6 +195,23 @@ ColumnFilter::search()
 
 Columns whose name contains a dot (e.g. `author.name`) are filtered through the relationship automatically using `whereHas()`.
 
+### Tables built outside a Livewire request
+
+The plugin registers its generated filters from Livewire's mount, hydrate, call and render events, which covers every path Filament itself takes. It does not cover code that builds the table headlessly — instantiating the page class and reading `getTable()` with no Livewire request behind it, which is how a custom endpoint or a table-driving package may work. There, none of those events fire, the generated filters never reach the table, and applying one fails with `The filter [cf_name] does not exist.`
+
+Add the trait to such a page:
+
+```php
+use Zvizvi\FilamentColumnFilters\Concerns\HasColumnFilters;
+
+class ListDonors extends ListRecords
+{
+    use HasColumnFilters;
+}
+```
+
+It registers (and decorates) from the component's own boot, which both paths run. Everything stays idempotent, so a normal request does no extra work. Apply it to the page class itself rather than a parent — Livewire resolves these hooks in `class_uses_recursive()` order, and being last is what guarantees the table already exists.
+
 ## Styling
 
 Every colour is exposed as a CSS variable, so you can restyle the trigger and the panel without overriding rules. Declare the ones you want in a stylesheet loaded after the plugin's:

@@ -14,3 +14,8 @@ parameters:
         -
             identifier: varTag.variableNotFound
             path: src/FilamentColumnFilters.php
+        # An opt-in trait for consumers to apply to their own pages; nothing
+        # inside the package uses it.
+        -
+            identifier: trait.unused
+            path: src/Concerns/HasColumnFilters.php

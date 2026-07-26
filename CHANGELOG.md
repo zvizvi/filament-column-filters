@@ -2,6 +2,10 @@
 
 All notable changes to `filament-column-filters` will be documented in this file.
 
+## 0.0.5 - 2026-07-26
+
+- New `Concerns\HasColumnFilters` trait, for pages whose table is built outside a Livewire request. The generated filters are registered from Livewire's mount/hydrate/call/render events; code that instantiates a page and reads `getTable()` directly fires none of them, so the filters never reached the table there and applying one failed with "The filter [cf_x] does not exist." The trait registers — and decorates — from the component's own boot instead, which both paths run.
+
 ## 0.0.4 - 2026-07-26
 
 - Dark mode: the header filter icon no longer stays at the white-background accent shade when it is active or its panel is open — the highlighted states and the active dot step up to `--primary-400` / `--primary-300`.

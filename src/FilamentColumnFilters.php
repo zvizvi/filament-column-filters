@@ -49,6 +49,12 @@ class FilamentColumnFilters
      *
      * Livewire's event bus is bound to the application instance, so this must
      * run on every boot of the service provider (no static guard).
+     *
+     * These cover every path Filament itself takes, but they are still REQUEST
+     * events: a driver that builds the table headlessly, with no Livewire
+     * request behind it, fires none of them. Such a page opts into
+     * `Concerns\HasColumnFilters`, which calls processComponent() from a boot
+     * hook that both paths run.
      */
     public static function registerLivewireListeners(): void
     {
@@ -85,6 +91,11 @@ class FilamentColumnFilters
     /**
      * Register the auto-generated table filters for configured columns and,
      * on render, decorate the column headers with the filter trigger + popup.
+     *
+     * Public and idempotent by design: it is both what the Livewire listeners
+     * call and the entry point for anything driving a table outside a Livewire
+     * request. Call it once the component's table exists — see
+     * `Concerns\HasColumnFilters` for the supported way to do that.
      */
     public static function processComponent(mixed $component, bool $decorate = false): void
     {
