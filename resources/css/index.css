@@ -72,6 +72,16 @@
     --fcf-trigger-color-hover: rgb(209 213 219);
     --fcf-trigger-bg-hover: rgb(255 255 255 / 0.1);
 
+    /*
+     * The accent shade defaults to primary-600, picked to read on white. On the
+     * dark header it is nearly invisible, so the highlighted states step up to
+     * the lighter shades instead.
+     */
+    --fcf-trigger-color-active: var(--primary-400, rgb(96 165 250));
+    --fcf-trigger-color-active-hover: var(--primary-300, rgb(147 197 253));
+    --fcf-trigger-color-open: var(--primary-400, rgb(96 165 250));
+    --fcf-dot-bg: var(--primary-400, rgb(96 165 250));
+
     --fcf-panel-bg: rgb(31 41 55);
     --fcf-panel-text: rgb(209 213 219);
     --fcf-panel-border: rgb(255 255 255 / 0.1);

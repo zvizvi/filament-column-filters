@@ -2,6 +2,10 @@
 
 All notable changes to `filament-column-filters` will be documented in this file.
 
+## 0.0.4 - 2026-07-26
+
+- Dark mode: the header filter icon no longer stays at the white-background accent shade when it is active or its panel is open — the highlighted states and the active dot step up to `--primary-400` / `--primary-300`.
+
 ## 0.0.3 - 2026-07-24
 
 - The header filter icon is now highlighted while its popup is open, so the open column is obvious. Themeable via `--fcf-trigger-color-open` / `--fcf-trigger-bg-open`.
