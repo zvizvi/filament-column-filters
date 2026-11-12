@@ -18,7 +18,7 @@ Adds a small filter icon to the header of any table column. Clicking it opens a 
 
 The header filters are backed by *real* Filament table filters, so they apply to the table query like any other filter and show the standard filter indicators (with working remove buttons) — but they do not clutter the standard filters dropdown. When you **sync with an existing filter** you already have on the table (via `syncWith()`), the popup reads and writes that filter's state, so choosing a value in the header popup updates the regular filter — dropdown included — and vice versa.
 
-RTL is fully supported and Hebrew translations are included.
+RTL is fully supported, and translations are included for English, Hebrew and Spanish.
 
 ## Installation
 
@@ -261,11 +261,19 @@ Most variables derive from `--fcf-accent`, so overriding that alone recolours th
 
 ## Translations
 
-English and Hebrew translations are included. Publish them to customize:
+The following languages are included:
+
+- English (`en`)
+- Hebrew (`he`)
+- Spanish (`es`)
+
+Publish them to customize:
 
 ```bash
 php artisan vendor:publish --tag=filament-column-filters-translations
 ```
+
+Missing your language? Pull requests with new translations are welcome — copy `resources/lang/en/filters.php` to `resources/lang/{locale}/filters.php`, translate the values (keep the keys and `:placeholders` as-is), and open a PR.
 
 ## Development
 
