@@ -2,7 +2,7 @@
 
 All notable changes to `filament-column-filters` will be documented in this file.
 
-## 0.0.7 - 2026-11-12
+## 0.0.8 - 2026-11-12
 
 - Automatic mode: `FilamentColumnFiltersPlugin::make()->automatic()` gives every text column that names no filter of its own the one that fits it — a select when the table already has a SelectFilter on the attribute or the attribute is cast to a backed enum (its cases and labels become the options), a date range for a date/time database column, a number range for a numeric one (keys excluded), and a search for a searchable column or a text database column. Anything else (an accessor, a computed state, an image) gets none. A column that names a filter keeps it; `->withoutColumnFilter()` keeps one out.
 
