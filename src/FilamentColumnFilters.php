@@ -3,6 +3,7 @@
 namespace Zvizvi\FilamentColumnFilters;
 
 use Error;
+use Filament\Facades\Filament;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -26,6 +27,13 @@ class FilamentColumnFilters
      */
     protected static ?WeakMap $decorated = null;
 
+    /**
+     * Columns kept out of automatic mode with `->withoutColumnFilter()`.
+     *
+     * @var WeakMap<Column, true>|null
+     */
+    protected static ?WeakMap $excluded = null;
+
     public static function registerColumnMacro(): void
     {
         if (Column::hasMacro('columnFilter')) {
@@ -35,6 +43,14 @@ class FilamentColumnFilters
         Column::macro('columnFilter', function (ColumnFilter $filter) {
             /** @var Column $this */
             FilamentColumnFilters::attach($this, $filter);
+
+            return $this;
+        });
+
+        // Keeps a column out of automatic mode.
+        Column::macro('withoutColumnFilter', function () {
+            /** @var Column $this */
+            FilamentColumnFilters::exclude($this);
 
             return $this;
         });
@@ -81,6 +97,35 @@ class FilamentColumnFilters
         static::registry()->offsetSet($column, $filter);
     }
 
+    public static function exclude(Column $column): void
+    {
+        static::excludedRegistry()->offsetSet($column, true);
+    }
+
+    public static function isExcluded(Column $column): bool
+    {
+        return static::excludedRegistry()->offsetExists($column);
+    }
+
+    /**
+     * Whether the current panel runs the plugin in automatic mode.
+     */
+    public static function isAutomatic(): bool
+    {
+        // The default panel when none is current yet: a component can be
+        // mounted before the panel middleware has run (a test, a headless
+        // driver), and a single-panel app means that panel either way.
+        $panel = Filament::getCurrentOrDefaultPanel();
+
+        if ($panel === null || ! $panel->hasPlugin('filament-column-filters')) {
+            return false;
+        }
+
+        $plugin = $panel->getPlugin('filament-column-filters');
+
+        return $plugin instanceof FilamentColumnFiltersPlugin && $plugin->isAutomatic();
+    }
+
     public static function getColumnFilter(Column $column): ?ColumnFilter
     {
         return static::registry()->offsetExists($column)
@@ -110,8 +155,18 @@ class FilamentColumnFilters
             return;
         }
 
+        $isAutomatic = static::isAutomatic();
+
         foreach ($table->getColumns() as $column) {
             $config = static::getColumnFilter($column);
+
+            if ($config === null && $isAutomatic && ! static::isExcluded($column)) {
+                $config = AutomaticColumnFilters::for($column, $table);
+
+                if ($config !== null) {
+                    static::attach($column, $config);
+                }
+            }
 
             if ($config === null) {
                 continue;
@@ -282,6 +337,14 @@ class FilamentColumnFilters
     protected static function registry(): WeakMap
     {
         return static::$registry ??= new WeakMap;
+    }
+
+    /**
+     * @return WeakMap<Column, true>
+     */
+    protected static function excludedRegistry(): WeakMap
+    {
+        return static::$excluded ??= new WeakMap;
     }
 
     /**

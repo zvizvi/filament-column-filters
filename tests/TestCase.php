@@ -81,6 +81,7 @@ class TestCase extends Orchestra
             $table->string('name');
             $table->string('status')->default('open');
             $table->integer('amount')->default(0);
+            $table->string('kind')->nullable();
             $table->timestamps();
         });
     }

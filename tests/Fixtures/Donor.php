@@ -9,6 +9,10 @@ class Donor extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'kind' => DonorKind::class,
+    ];
+
     public function getDisplayNameAttribute(): string
     {
         return 'Donor: ' . $this->name;

@@ -2,6 +2,10 @@
 
 All notable changes to `filament-column-filters` will be documented in this file.
 
+## 0.0.7 - 2026-11-12
+
+- Automatic mode: `FilamentColumnFiltersPlugin::make()->automatic()` gives every text column that names no filter of its own the one that fits it — a select when the table already has a SelectFilter on the attribute or the attribute is cast to a backed enum (its cases and labels become the options), a date range for a date/time database column, a number range for a numeric one (keys excluded), and a search for a searchable column or a text database column. Anything else (an accessor, a computed state, an image) gets none. A column that names a filter keeps it; `->withoutColumnFilter()` keeps one out.
+
 ## 0.0.5 - 2026-07-26
 
 - New `Concerns\HasColumnFilters` trait, for pages whose table is built outside a Livewire request. The generated filters are registered from Livewire's mount/hydrate/call/render events; code that instantiates a page and reads `getTable()` directly fires none of them, so the filters never reached the table there and applying one failed with "The filter [cf_x] does not exist." The trait registers — and decorates — from the component's own boot instead, which both paths run.

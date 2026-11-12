@@ -2,11 +2,31 @@
 
 namespace Zvizvi\FilamentColumnFilters;
 
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
 class FilamentColumnFiltersPlugin implements Plugin
 {
+    protected bool | Closure $isAutomatic = false;
+
+    /**
+     * Give every column that names no filter of its own the one that fits it
+     * ({@see AutomaticColumnFilters}). A column opts out with
+     * `->withoutColumnFilter()`; one that names a filter keeps it.
+     */
+    public function automatic(bool | Closure $condition = true): static
+    {
+        $this->isAutomatic = $condition;
+
+        return $this;
+    }
+
+    public function isAutomatic(): bool
+    {
+        return (bool) ($this->isAutomatic instanceof Closure ? ($this->isAutomatic)() : $this->isAutomatic);
+    }
+
     public function getId(): string
     {
         return 'filament-column-filters';

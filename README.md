@@ -118,6 +118,27 @@ TextColumn::make('amount')
 
 Filters records between the entered minimum / maximum values (each side optional).
 
+### Automatic mode
+
+Rather than configuring each column, let the plugin pick a filter for every column that names none:
+
+```php
+$panel->plugin(FilamentColumnFiltersPlugin::make()->automatic());
+```
+
+Only text columns are considered, and only where the filter can actually work:
+
+| The column is… | It gets |
+|---|---|
+| backed by a `SelectFilter` the table already has on the same attribute | a select, synced with that filter |
+| cast to a backed enum on the model | a select listing the enum's cases (`HasLabel` labels when present) |
+| a date / datetime / timestamp column in the database | a date range |
+| a numeric column in the database (`id` and `*_id` excluded) | a number range |
+| searchable, or a text column in the database | a search (the column's own search definition when it has one) |
+| anything else — an accessor, a count, a computed state | nothing |
+
+Dotted relationship columns (`category.name`) are resolved through the relationship. A column that calls `->columnFilter(...)` keeps its own configuration; keep one out entirely with `->withoutColumnFilter()`.
+
 ### Syncing with an existing table filter
 
 If the table already has a regular Filament filter for the same value, the column filter syncs with it instead of registering its own — the header popup reads and writes that filter's state, so both stay in sync and only one indicator shows.
