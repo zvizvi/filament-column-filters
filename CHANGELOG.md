@@ -2,6 +2,10 @@
 
 All notable changes to `filament-column-filters` will be documented in this file.
 
+## 0.0.9 - 2026-11-12
+
+- A decorated column header label is a `ColumnFilterHeaderLabel`: HTML for the table header, and `HasLabel::getLabel()` with the column's own plain label for everything else that reads it - an export heading row read the popup's markup (its options, its placeholders) as the column's name.
+
 ## 0.0.8 - 2026-11-12
 
 - Automatic mode: `FilamentColumnFiltersPlugin::make()->automatic()` gives every text column that names no filter of its own the one that fits it — a select when the table already has a SelectFilter on the attribute or the attribute is cast to a backed enum (its cases and labels become the options), a date range for a date/time database column, a number range for a numeric one (keys excluded), and a search for a searchable column or a text database column. Anything else (an accessor, a computed state, an image) gets none. A column that names a filter keeps it; `->withoutColumnFilter()` keeps one out.

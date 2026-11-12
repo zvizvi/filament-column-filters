@@ -8,7 +8,6 @@ use Filament\Tables\Columns\Column;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use WeakMap;
 use Zvizvi\FilamentColumnFilters\Filters\ColumnFilter;
@@ -325,8 +324,12 @@ class FilamentColumnFilters
             'isActive' => static::hasActiveState($state),
         ])->render();
 
+        $plainLabel = $label instanceof Htmlable
+            ? trim(html_entity_decode(strip_tags($label->toHtml()), ENT_QUOTES | ENT_HTML5))
+            : (string) $label;
+
         $column
-            ->label(new HtmlString($html))
+            ->label(new ColumnFilterHeaderLabel($html, $plainLabel))
             ->translateLabel(false)
             ->extraHeaderAttributes(['class' => 'fcf-th'], merge: true);
     }

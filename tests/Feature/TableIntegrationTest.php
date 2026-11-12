@@ -1,8 +1,10 @@
 <?php
 
 use Filament\Forms\Components\DatePicker;
+use Filament\Support\Contracts\HasLabel;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Contracts\Support\Htmlable;
 use Zvizvi\FilamentColumnFilters\Filters\ColumnFilter;
 use Zvizvi\FilamentColumnFilters\Tests\Fixtures\Category;
 use Zvizvi\FilamentColumnFilters\Tests\Fixtures\Donor;
@@ -41,6 +43,18 @@ it('decorates configured column headers with the filter popup', function () {
     livewire(DonorsTable::class)
         ->assertSeeHtml('fcf-trigger')
         ->assertSeeHtml('filamentColumnFilters(');
+});
+
+it('keeps the plain column label for whatever reads it as text', function () {
+    $component = livewire(DonorsTable::class);
+    $label = $component->instance()->getTable()->getColumn('amount')->getLabel();
+
+    // The header gets the trigger and popup; an export heading, a column
+    // manager or an accessible name gets the column's own label.
+    expect($label)->toBeInstanceOf(Htmlable::class)
+        ->and($label->toHtml())->toContain('fcf-trigger')
+        ->and($label)->toBeInstanceOf(HasLabel::class)
+        ->and($label->getLabel())->toBe('Amount');
 });
 
 it('filters records through the generated search filter', function () {
