@@ -76,6 +76,20 @@ export function presetRange(preset, weekStartsOn = 0) {
 // page — opening one closes the currently open one.
 let openInstance = null
 
+// The client twin of `FilamentColumnFilters::hasActiveState()`: PHP's
+// `filled()` for a scalar, non-empty for a list.
+function isFilled(value) {
+    if (Array.isArray(value)) {
+        return value.length > 0
+    }
+
+    if (value === null || value === undefined) {
+        return false
+    }
+
+    return typeof value === 'string' ? value.trim() !== '' : true
+}
+
 export default function filamentColumnFilters(config) {
     return {
         open: false,
@@ -92,6 +106,17 @@ export default function filamentColumnFilters(config) {
 
         get wirePath() {
             return `tableFilters.${config.filterName}`
+        },
+
+        // Whether the filter currently narrows the table, read from the
+        // component's own state rather than from the rendered markup. The
+        // header is rendered once, server-side; where it is not rendered again
+        // after a filter is applied (a table whose rows are refetched without
+        // re-rendering its header), the icon would otherwise keep the state it
+        // was first drawn with. `$wire` is reactive, so this follows every
+        // commit.
+        get isActive() {
+            return Object.values(this.currentWireState()).some(isFilled)
         },
 
         currentWireState() {

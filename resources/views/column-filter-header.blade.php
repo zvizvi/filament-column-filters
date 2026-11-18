@@ -16,7 +16,7 @@
             role="button"
             tabindex="0"
             class="fcf-trigger @if ($isActive) fcf-trigger--active @endif"
-            x-bind:class="{ 'fcf-trigger--open': open }"
+            x-bind:class="{ 'fcf-trigger--open': open, 'fcf-trigger--active': isActive }"
             x-on:click.stop.prevent="toggle"
             x-on:keydown.enter.stop.prevent="toggle"
             x-tooltip="{ content: @js($tooltip), theme: $store.theme }"
