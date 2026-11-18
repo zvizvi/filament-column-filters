@@ -45,6 +45,18 @@ it('decorates configured column headers with the filter popup', function () {
         ->assertSeeHtml('filamentColumnFilters(');
 });
 
+/*
+ * The header is rendered once. Where it is not rendered again after a filter
+ * is applied or cleared (a relation manager, a table whose rows are refetched
+ * without its header), a server-rendered "active" class kept the state the
+ * page was first drawn with: lit until a reload after clearing, never lit
+ * where the state is not in the URL. The class follows the live state.
+ */
+it('marks the icon active from the live filter state, not only from the render', function () {
+    livewire(DonorsTable::class)
+        ->assertSeeHtml("'fcf-trigger--active': isActive");
+});
+
 it('keeps the plain column label for whatever reads it as text', function () {
     $component = livewire(DonorsTable::class);
     $label = $component->instance()->getTable()->getColumn('amount')->getLabel();

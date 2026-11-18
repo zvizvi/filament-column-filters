@@ -2,6 +2,10 @@
 
 All notable changes to `filament-column-filters` will be documented in this file.
 
+## 0.0.10 - 2026-11-18
+
+- The header icon is marked active from the filter's live state (`$wire.tableFilters`), not only from the render. The header is drawn once, so wherever it is not drawn again after a filter is applied or cleared - a relation manager, a table whose rows are refetched without its header (Villament) - the icon kept the state the page was first drawn with: still lit after clearing until the next reload, and never lit where the filter state is not in the URL.
+
 ## 0.0.9 - 2026-11-12
 
 - A decorated column header label is a `ColumnFilterHeaderLabel`: HTML for the table header, and `HasLabel::getLabel()` with the column's own plain label for everything else that reads it - an export heading row read the popup's markup (its options, its placeholders) as the column's name.
